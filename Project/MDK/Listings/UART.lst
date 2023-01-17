@@ -1,50 +1,57 @@
-C51 COMPILER V9.57.0.0   UART                                                              01/17/2023 20:01:43 PAGE 1   
+C51 COMPILER V9.57.0.0   UART                                                              01/17/2023 21:19:56 PAGE 1   
 
 
 C51 COMPILER V9.57.0.0, COMPILATION OF MODULE UART
 OBJECT MODULE PLACED IN .\Objects\UART.obj
-COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ..\CODE\UART.c OPTIMIZE(8,SPEED) BROWSE INCDIR(..\..\Libraries\libraries
-                    -;..\USER\inc;..\CODE) DEBUG OBJECTEXTEND PRINT(.\Listings\UART.lst) TABS(2) OBJECT(.\Objects\UART.obj)
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ..\..\Libraries\zxy_libraries\UART.c OPTIMIZE(8,SPEED) BROWSE INCDIR(..\
+                    -..\Libraries\libraries;..\USER\inc;..\CODE;..\..\Libraries\zxy_libraries) DEBUG OBJECTEXTEND PRINT(.\Listings\UART.lst) 
+                    -TABS(2) OBJECT(.\Objects\UART.obj)
 
 line level    source
 
-   1          #include "UART.h"
-   2          
-   3          /***
-   4           * @brief 串口通讯初始化, 默认波特率2400
-   5           * @date  2023-01-17
-   6          */
-   7          void UartInit(void)   //2400bps@12.000MHz
-   8          {
-   9   1        SCON = 0x50;    //8位数据,可变波特率
-  10   1        TMOD &= 0x0F;   //设置定时器模式
-  11   1        TMOD |= 0x20;   //设置定时器模式
-  12   1        TL1 = 0xF3;     //设置定时初始值
-  13   1        TH1 = 0xF3;     //设置定时重载值
-  14   1        ET1 = 0;      //禁止定时器中断
-  15   1        TR1 = 1;      //定时器1开始计时
-  16   1      
-  17   1        ES  = 1;      // 允许UART中断
-  18   1      }
-  19          
-  20          /***
-  21           * @brief 向串口发送一个字节
-  22           * @date  2023-01-17
-  23          */
-  24          void SendByte(uint8 dat){
-  25   1        SBUF = dat;
-  26   1        while(!TI);
-  27   1        TI = 0;
-  28   1      }
-  29          
-  30          /***
-  31           * @brief 串口层面上的 putchar()
-  32           * @date  2023-01-17
-  33          */
-  34          int8 putchar(int8 dat){
-  35   1        SendByte(dat);
-  36   1        return dat;
-  37   1      }
+   1          /***
+   2           * @file    UART.c
+   3           * @author  zxy
+   4           * @date    2023-01-17
+   5          */
+   6          
+   7          #include "UART.h"
+   8          
+   9          /***
+  10           * @brief 串口通讯初始化, 默认波特率2400
+  11           * @date  2023-01-17
+  12          */
+  13          void UartInit(void)   //2400bps@12.000MHz
+  14          {
+  15   1        SCON = 0x50;    //8位数据,可变波特率
+  16   1        TMOD &= 0x0F;   //设置定时器模式
+  17   1        TMOD |= 0x20;   //设置定时器模式
+  18   1        TL1 = 0xF3;     //设置定时初始值
+  19   1        TH1 = 0xF3;     //设置定时重载值
+  20   1        ET1 = 0;      //禁止定时器中断
+  21   1        TR1 = 1;      //定时器1开始计时
+  22   1      
+  23   1        ES  = 1;      // 允许UART中断
+  24   1      }
+  25          
+  26          /***
+  27           * @brief 向串口发送一个字节
+  28           * @date  2023-01-17
+  29          */
+  30          void SendByte(uint8 dat){
+  31   1        SBUF = dat;
+  32   1        while(!TI);
+  33   1        TI = 0;
+  34   1      }
+  35          
+  36          /***
+  37           * @brief 串口层面上的 putchar()
+  38           * @date  2023-01-17
+  39          */
+  40          int8 putchar(int8 dat){
+  41   1        SendByte(dat);
+  42   1        return dat;
+  43   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
@@ -55,6 +62,8 @@ MODULE INFORMATION:   STATIC OVERLAYABLE
    DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
+C51 COMPILER V9.57.0.0   UART                                                              01/17/2023 21:19:56 PAGE 2   
+
 END OF MODULE INFORMATION.
 
 

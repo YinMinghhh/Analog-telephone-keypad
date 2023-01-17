@@ -1,16 +1,20 @@
+/***
+ * @file    isr.c
+ * @brief	存放所有中断服务函数
+ * @author  zxy
+ * @date    2023-01-17
+*/
+
 #include "UART.h"
-#include <stdlib.h>
 
 sbit LED1 = P2^0;
-sbit LED2 = P2^1;
-sbit LED3 = P2^2;
-sbit LED4 = P2^3;
+
 
 void TM0_Isr() interrupt 1 {
-	static uint16 i = 0;
-	i += 10;
-	if(i == 1000){
-		i = 0;
+	static uint16 cnt_10ms = 0;
+	cnt_10ms += 10;
+	if(cnt_10ms == 1000){
+		cnt_10ms = 0;
 		LED1 = !LED1;
 		// SendByte('F');
 	}

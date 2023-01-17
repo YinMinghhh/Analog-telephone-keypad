@@ -1,9 +1,9 @@
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    01/17/2023  20:01:43  PAGE 1
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    01/17/2023  21:19:57  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V6.22.2.0, INVOKED BY:
-C:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\board.obj, .\Objects\common.obj, .\Objects\STARTUP.obj, .\Objects\isr.obj, .\Objec
->> ts\main.obj, .\Objects\TIM.obj, .\Objects\UART.obj TO .\Objects\ATK-Hohai-zxy PRINT (.\Listings\ATK-Hohai-zxy.m51) RA
+C:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\board.obj, .\Objects\common.obj, .\Objects\STARTUP.obj, .\Objects\TIM.obj, .\Objec
+>> ts\UART.obj, .\Objects\isr.obj, .\Objects\main.obj TO .\Objects\ATK-Hohai-zxy PRINT (.\Listings\ATK-Hohai-zxy.m51) RA
 >> MSIZE (256)
 
 
@@ -14,10 +14,10 @@ INPUT MODULES INCLUDED:
   .\Objects\board.obj (BOARD)
   .\Objects\common.obj (COMMON)
   .\Objects\STARTUP.obj (?C_STARTUP)
-  .\Objects\isr.obj (ISR)
-  .\Objects\main.obj (MAIN)
   .\Objects\TIM.obj (TIM)
   .\Objects\UART.obj (UART)
+  .\Objects\isr.obj (ISR)
+  .\Objects\main.obj (MAIN)
   C:\KEIL_V5\C51\LIB\C51S.LIB (?C_INIT)
   C:\KEIL_V5\C51\LIB\C51S.LIB (?C?IMUL)
   C:\KEIL_V5\C51\LIB\C51S.LIB (?C?UIDIV)
@@ -51,26 +51,26 @@ LINK MAP OF MODULE:  .\Objects\ATK-Hohai-zxy (BOARD)
             CODE    0000H     0003H     ABSOLUTE     
             CODE    0003H     0008H     UNIT         ?PR?_SENDBYTE?UART
             CODE    000BH     0003H     ABSOLUTE     
-            CODE    000EH     000BH     UNIT         ?C_INITSEG
-            CODE    0019H     000AH     UNIT         ?PR?BOARD_INIT?BOARD
+            CODE    000EH     0015H     UNIT         ?PR?MODULES_INIT?MAIN
             CODE    0023H     0003H     ABSOLUTE     
             CODE    0026H     035CH     UNIT         ?PR?PRINTF?PRINTF
             CODE    0382H     01C3H     UNIT         ?C?LIB_CODE
             CODE    0545H     008CH     UNIT         ?C_C51STARTUP
             CODE    05D1H     0045H     UNIT         ?PR?UART1_ROUTINE?ISR
             CODE    0616H     0044H     UNIT         ?PR?_PIT_TIMER_MS?TIM
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  01/17/2023  20:01:43  PAGE 2
-
-
             CODE    065AH     0044H     UNIT         ?C?LDIV
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  01/17/2023  21:19:57  PAGE 2
+
+
             CODE    069EH     002CH     UNIT         ?CO?MAIN
-            CODE    06CAH     0029H     UNIT         ?PR?MAIN?MAIN
-            CODE    06F3H     0026H     UNIT         ?PR?TM0_ISR?ISR
-            CODE    0719H     001DH     UNIT         ?PR?_CTIMER_COUNT_INIT?TIM
-            CODE    0736H     0016H     UNIT         ?PR?UARTINIT?UART
-            CODE    074CH     0005H     UNIT         ?PR?_PUTCHAR?UART
-            CODE    0751H     0003H     UNIT         ?PR?DISABLEGLOBALIRQ?BOARD
-            CODE    0754H     0003H     UNIT         ?PR?ENABLEGLOBALIRQ?BOARD
+            CODE    06CAH     0026H     UNIT         ?PR?TM0_ISR?ISR
+            CODE    06F0H     0017H     UNIT         ?PR?MAIN?MAIN
+            CODE    0707H     0016H     UNIT         ?PR?UARTINIT?UART
+            CODE    071DH     000BH     UNIT         ?C_INITSEG
+            CODE    0728H     000AH     UNIT         ?PR?BOARD_INIT?BOARD
+            CODE    0732H     0005H     UNIT         ?PR?_PUTCHAR?UART
+            CODE    0737H     0003H     UNIT         ?PR?DISABLEGLOBALIRQ?BOARD
+            CODE    073AH     0003H     UNIT         ?PR?ENABLEGLOBALIRQ?BOARD
 
 
 
@@ -86,14 +86,17 @@ SEGMENT                               BIT_GROUP          DATA_GROUP
 
 ?PR?MAIN?MAIN                      -----    -----      -----    -----
   +--> ?PR?BOARD_INIT?BOARD
-  +--> ?PR?_PIT_TIMER_MS?TIM
-  +--> ?PR?UARTINIT?UART
-  +--> ?CO?MAIN
-  +--> ?PR?PRINTF?PRINTF
+  +--> ?PR?MODULES_INIT?MAIN
   +--> ?PR?ENABLEGLOBALIRQ?BOARD
 
 ?PR?BOARD_INIT?BOARD               -----    -----      -----    -----
   +--> ?PR?DISABLEGLOBALIRQ?BOARD
+
+?PR?MODULES_INIT?MAIN              -----    -----      -----    -----
+  +--> ?PR?_PIT_TIMER_MS?TIM
+  +--> ?PR?UARTINIT?UART
+  +--> ?CO?MAIN
+  +--> ?PR?PRINTF?PRINTF
 
 ?PR?_PIT_TIMER_MS?TIM              -----    -----      0008H    0001H
 
@@ -116,44 +119,44 @@ SYMBOL TABLE OF MODULE:  .\Objects\ATK-Hohai-zxy (BOARD)
   ----------------------------------
 
   -------         MODULE        BOARD
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  01/17/2023  21:19:57  PAGE 3
+
+
   C:0000H         SYMBOL        _ICE_DUMMY_
   D:0080H         PUBLIC        P0
   D:0090H         PUBLIC        P1
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  01/17/2023  20:01:43  PAGE 3
-
-
   D:00A0H         PUBLIC        P2
   D:00B0H         PUBLIC        P3
   D:00E8H         PUBLIC        P4
   B:00A8H.7       PUBLIC        EA
-  C:0754H         PUBLIC        EnableGlobalIRQ
+  C:073AH         PUBLIC        EnableGlobalIRQ
   D:00A8H         PUBLIC        IE
   D:00B8H         PUBLIC        IP
-  C:0019H         PUBLIC        board_init
+  C:0728H         PUBLIC        board_init
   D:0098H         PUBLIC        SCON
   D:0089H         PUBLIC        TMOD
   D:0088H         PUBLIC        TCON
   D:008EH         PUBLIC        AUXR
   D:00C8H         PUBLIC        T2CON
   D:00D0H         PUBLIC        PSW
-  C:0751H         PUBLIC        DisableGlobalIRQ
+  C:0737H         PUBLIC        DisableGlobalIRQ
   D:0022H         PUBLIC        sys_clk
   -------         PROC          BOARD_INIT
-  C:0019H         LINE#         13
-  C:0019H         LINE#         14
-  C:001CH         LINE#         15
-  C:001EH         LINE#         16
-  C:0020H         LINE#         17
+  C:0728H         LINE#         17
+  C:0728H         LINE#         18
+  C:072BH         LINE#         19
+  C:072DH         LINE#         20
+  C:072FH         LINE#         21
   -------         ENDPROC       BOARD_INIT
   -------         PROC          DISABLEGLOBALIRQ
-  C:0751H         LINE#         26
-  C:0751H         LINE#         27
-  C:0753H         LINE#         28
+  C:0737H         LINE#         28
+  C:0737H         LINE#         29
+  C:0739H         LINE#         30
   -------         ENDPROC       DISABLEGLOBALIRQ
   -------         PROC          ENABLEGLOBALIRQ
-  C:0754H         LINE#         34
-  C:0754H         LINE#         35
-  C:0756H         LINE#         36
+  C:073AH         LINE#         36
+  C:073AH         LINE#         37
+  C:073CH         LINE#         38
   -------         ENDPROC       ENABLEGLOBALIRQ
   -------         ENDMOD        BOARD
 
@@ -176,12 +179,12 @@ SYMBOL TABLE OF MODULE:  .\Objects\ATK-Hohai-zxy (BOARD)
   C:0545H         SEGMENT       ?C_C51STARTUP
   I:0026H         SEGMENT       ?STACK
   C:0000H         PUBLIC        ?C_STARTUP
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  01/17/2023  21:19:57  PAGE 4
+
+
   D:00E0H         SYMBOL        ACC
   D:00F0H         SYMBOL        B
   D:0083H         SYMBOL        DPH
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  01/17/2023  20:01:43  PAGE 4
-
-
   D:0082H         SYMBOL        DPL
   N:0000H         SYMBOL        IBPSTACK
   N:0100H         SYMBOL        IBPSTACKTOP
@@ -209,80 +212,6 @@ SYMBOL TABLE OF MODULE:  .\Objects\ATK-Hohai-zxy (BOARD)
   C:054EH         LINE#         196
   -------         ENDMOD        ?C_STARTUP
 
-  -------         MODULE        ISR
-  C:0000H         SYMBOL        _ICE_DUMMY_
-  D:0080H         PUBLIC        P0
-  D:0090H         PUBLIC        P1
-  D:00A0H         PUBLIC        P2
-  D:00B0H         PUBLIC        P3
-  D:00E8H         PUBLIC        P4
-  B:00A0H.0       PUBLIC        LED1
-  D:00A8H         PUBLIC        IE
-  D:00B8H         PUBLIC        IP
-  B:0098H.0       PUBLIC        RI
-  D:0099H         PUBLIC        SBUF
-  D:0098H         PUBLIC        SCON
-  D:0088H         PUBLIC        TCON
-  C:05D1H         PUBLIC        UART1_Routine
-  C:06F3H         PUBLIC        TM0_Isr
-  D:00C8H         PUBLIC        T2CON
-  D:00D0H         PUBLIC        PSW
-  -------         PROC          TM0_ISR
-  -------         DO            
-  D:001DH         SYMBOL        i
-  -------         ENDDO         
-  C:06F3H         LINE#         9
-  C:06F7H         LINE#         11
-  C:0702H         LINE#         12
-  C:070CH         LINE#         13
-  C:0712H         LINE#         14
-  C:0714H         LINE#         16
-  C:0714H         LINE#         17
-  -------         ENDPROC       TM0_ISR
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  01/17/2023  20:01:43  PAGE 5
-
-
-  -------         PROC          UART1_ROUTINE
-  -------         DO            
-  D:001CH         SYMBOL        res
-  -------         ENDDO         
-  C:05D1H         LINE#         23
-  C:05EEH         LINE#         25
-  C:05F1H         LINE#         26
-  C:05F3H         LINE#         27
-  C:05F6H         LINE#         28
-  C:05F6H         LINE#         29
-  C:05FBH         LINE#         30
-  -------         ENDPROC       UART1_ROUTINE
-  -------         ENDMOD        ISR
-
-  -------         MODULE        MAIN
-  C:0000H         SYMBOL        _ICE_DUMMY_
-  D:0080H         PUBLIC        P0
-  D:0090H         PUBLIC        P1
-  D:00A0H         PUBLIC        P2
-  D:00B0H         PUBLIC        P3
-  D:00E8H         PUBLIC        P4
-  D:00A8H         PUBLIC        IE
-  D:00B8H         PUBLIC        IP
-  C:06CAH         PUBLIC        main
-  D:0098H         PUBLIC        SCON
-  D:0088H         PUBLIC        TCON
-  D:00C8H         PUBLIC        T2CON
-  D:00D0H         PUBLIC        PSW
-  -------         PROC          MAIN
-  C:06CAH         LINE#         15
-  C:06CAH         LINE#         16
-  C:06D6H         LINE#         17
-  C:06D9H         LINE#         18
-  C:06E2H         LINE#         19
-  C:06E5H         LINE#         20
-  C:06EEH         LINE#         23
-  C:06F1H         LINE#         25
-  C:06F1H         LINE#         27
-  -------         ENDPROC       MAIN
-  -------         ENDMOD        MAIN
-
   -------         MODULE        TIM
   C:0000H         SYMBOL        _ICE_DUMMY_
   D:0080H         PUBLIC        P0
@@ -293,15 +222,11 @@ SYMBOL TABLE OF MODULE:  .\Objects\ATK-Hohai-zxy (BOARD)
   D:00A8H         PUBLIC        IE
   C:0616H         PUBLIC        _pit_timer_ms
   D:00B8H         PUBLIC        IP
-  C:0719H         PUBLIC        _ctimer_count_init
   D:0098H         PUBLIC        SCON
   D:0089H         PUBLIC        TMOD
   D:0088H         PUBLIC        TCON
   B:00A8H.1       PUBLIC        ET0
   B:00A8H.3       PUBLIC        ET1
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  01/17/2023  20:01:43  PAGE 6
-
-
   D:008CH         PUBLIC        TH0
   D:008DH         PUBLIC        TH1
   D:008AH         PUBLIC        TL0
@@ -314,57 +239,32 @@ SYMBOL TABLE OF MODULE:  .\Objects\ATK-Hohai-zxy (BOARD)
   D:0008H         SYMBOL        tim_n
   D:0004H         SYMBOL        time_ms
   -------         DO            
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  01/17/2023  21:19:57  PAGE 5
+
+
   D:0006H         SYMBOL        temp
   -------         ENDDO         
-  C:0616H         LINE#         12
-  C:0618H         LINE#         13
-  C:0618H         LINE#         15
-  C:063FH         LINE#         17
-  C:0643H         LINE#         18
-  C:0643H         LINE#         19
-  C:0643H         LINE#         20
-  C:0645H         LINE#         21
-  C:0647H         LINE#         22
-  C:0649H         LINE#         23
-  C:064BH         LINE#         24
-  C:064CH         LINE#         25
-  C:0651H         LINE#         26
-  C:0651H         LINE#         27
-  C:0651H         LINE#         28
-  C:0653H         LINE#         29
-  C:0655H         LINE#         30
-  C:0657H         LINE#         31
-  C:0659H         LINE#         32
-  C:0659H         LINE#         33
+  C:0616H         LINE#         17
+  C:0618H         LINE#         18
+  C:0618H         LINE#         20
+  C:063FH         LINE#         22
+  C:0643H         LINE#         23
+  C:0643H         LINE#         24
+  C:0643H         LINE#         25
+  C:0645H         LINE#         26
+  C:0647H         LINE#         27
+  C:0649H         LINE#         28
+  C:064BH         LINE#         29
+  C:064CH         LINE#         30
+  C:0651H         LINE#         31
+  C:0651H         LINE#         32
+  C:0651H         LINE#         33
+  C:0653H         LINE#         34
+  C:0655H         LINE#         35
+  C:0657H         LINE#         36
+  C:0659H         LINE#         37
+  C:0659H         LINE#         38
   -------         ENDPROC       _PIT_TIMER_MS
-  -------         PROC          _CTIMER_COUNT_INIT
-  D:0007H         SYMBOL        tim_n
-  C:0719H         LINE#         48
-  C:0719H         LINE#         49
-  C:0719H         LINE#         50
-  C:0720H         LINE#         51
-  C:0720H         LINE#         52
-  C:0720H         LINE#         53
-  C:0720H         LINE#         54
-  C:0723H         LINE#         55
-  C:0725H         LINE#         56
-  C:0728H         LINE#         57
-  C:072AH         LINE#         58
-  C:072BH         LINE#         59
-  C:072BH         LINE#         61
-  C:072BH         LINE#         62
-  C:072BH         LINE#         63
-  C:072EH         LINE#         64
-  C:0730H         LINE#         65
-  C:0733H         LINE#         66
-  C:0735H         LINE#         67
-  C:0735H         LINE#         68
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  01/17/2023  20:01:43  PAGE 7
-
-
-  C:0735H         LINE#         69
-  C:0735H         LINE#         70
-  -------         ENDPROC       _CTIMER_COUNT_INIT
   -------         ENDMOD        TIM
 
   -------         MODULE        UART
@@ -381,7 +281,7 @@ SYMBOL TABLE OF MODULE:  .\Objects\ATK-Hohai-zxy (BOARD)
   C:0003H         PUBLIC        _SendByte
   D:0099H         PUBLIC        SBUF
   D:0098H         PUBLIC        SCON
-  C:0736H         PUBLIC        UartInit
+  C:0707H         PUBLIC        UartInit
   D:0089H         PUBLIC        TMOD
   D:0088H         PUBLIC        TCON
   B:00A8H.3       PUBLIC        ET1
@@ -390,37 +290,116 @@ SYMBOL TABLE OF MODULE:  .\Objects\ATK-Hohai-zxy (BOARD)
   B:0088H.6       PUBLIC        TR1
   D:00C8H         PUBLIC        T2CON
   D:00D0H         PUBLIC        PSW
-  C:074CH         PUBLIC        _putchar
+  C:0732H         PUBLIC        _putchar
   -------         PROC          UARTINIT
-  C:0736H         LINE#         7
-  C:0736H         LINE#         8
-  C:0736H         LINE#         9
-  C:0739H         LINE#         10
-  C:073CH         LINE#         11
-  C:073FH         LINE#         12
-  C:0742H         LINE#         13
-  C:0745H         LINE#         14
-  C:0747H         LINE#         15
-  C:0749H         LINE#         17
-  C:074BH         LINE#         18
+  C:0707H         LINE#         13
+  C:0707H         LINE#         14
+  C:0707H         LINE#         15
+  C:070AH         LINE#         16
+  C:070DH         LINE#         17
+  C:0710H         LINE#         18
+  C:0713H         LINE#         19
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  01/17/2023  21:19:57  PAGE 6
+
+
+  C:0716H         LINE#         20
+  C:0718H         LINE#         21
+  C:071AH         LINE#         23
+  C:071CH         LINE#         24
   -------         ENDPROC       UARTINIT
   -------         PROC          _SENDBYTE
   D:0007H         SYMBOL        dat
-  C:0003H         LINE#         24
-  C:0003H         LINE#         25
-  C:0005H         LINE#         26
-  C:0008H         LINE#         27
-  C:000AH         LINE#         28
+  C:0003H         LINE#         30
+  C:0003H         LINE#         31
+  C:0005H         LINE#         32
+  C:0008H         LINE#         33
+  C:000AH         LINE#         34
   -------         ENDPROC       _SENDBYTE
   -------         PROC          _PUTCHAR
   D:0006H         SYMBOL        dat
-  C:074CH         LINE#         34
-  C:074EH         LINE#         35
+  C:0732H         LINE#         40
+  C:0734H         LINE#         41
   -------         ENDPROC       _PUTCHAR
   -------         ENDMOD        UART
 
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  01/17/2023  20:01:43  PAGE 8
+  -------         MODULE        ISR
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  D:00E8H         PUBLIC        P4
+  B:00A0H.0       PUBLIC        LED1
+  D:00A8H         PUBLIC        IE
+  D:00B8H         PUBLIC        IP
+  B:0098H.0       PUBLIC        RI
+  D:0099H         PUBLIC        SBUF
+  D:0098H         PUBLIC        SCON
+  D:0088H         PUBLIC        TCON
+  C:05D1H         PUBLIC        UART1_Routine
+  C:06CAH         PUBLIC        TM0_Isr
+  D:00C8H         PUBLIC        T2CON
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          TM0_ISR
+  -------         DO            
+  D:001DH         SYMBOL        cnt_10ms
+  -------         ENDDO         
+  C:06CAH         LINE#         13
+  C:06CEH         LINE#         15
+  C:06D9H         LINE#         16
+  C:06E3H         LINE#         17
+  C:06E9H         LINE#         18
+  C:06EBH         LINE#         20
+  C:06EBH         LINE#         21
+  -------         ENDPROC       TM0_ISR
+  -------         PROC          UART1_ROUTINE
+  -------         DO            
+  D:001CH         SYMBOL        res
+  -------         ENDDO         
+  C:05D1H         LINE#         27
+  C:05EEH         LINE#         29
+  C:05F1H         LINE#         30
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  01/17/2023  21:19:57  PAGE 7
 
+
+  C:05F3H         LINE#         31
+  C:05F6H         LINE#         32
+  C:05F6H         LINE#         33
+  C:05FBH         LINE#         34
+  -------         ENDPROC       UART1_ROUTINE
+  -------         ENDMOD        ISR
+
+  -------         MODULE        MAIN
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  D:00E8H         PUBLIC        P4
+  D:00A8H         PUBLIC        IE
+  C:000EH         PUBLIC        modules_init
+  D:00B8H         PUBLIC        IP
+  C:06F0H         PUBLIC        main
+  D:0098H         PUBLIC        SCON
+  D:0088H         PUBLIC        TCON
+  D:00C8H         PUBLIC        T2CON
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          MAIN
+  C:06F0H         LINE#         22
+  C:06F0H         LINE#         24
+  C:06FCH         LINE#         25
+  C:06FFH         LINE#         26
+  C:0702H         LINE#         27
+  C:0705H         LINE#         29
+  C:0705H         LINE#         31
+  -------         ENDPROC       MAIN
+  -------         PROC          MODULES_INIT
+  C:000EH         LINE#         38
+  C:000EH         LINE#         39
+  C:0017H         LINE#         40
+  C:001AH         LINE#         41
+  -------         ENDPROC       MODULES_INIT
+  -------         ENDMOD        MAIN
 
   -------         MODULE        ?C?IMUL
   C:0382H         PUBLIC        ?C?IMUL
@@ -440,6 +419,9 @@ SYMBOL TABLE OF MODULE:  .\Objects\ATK-Hohai-zxy (BOARD)
   D:0008H         PUBLIC        ?_SPRINTF517?BYTE
   D:0008H         PUBLIC        ?_SPRINTF?BYTE
   C:0088H         PUBLIC        _PRINTF
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  01/17/2023  21:19:57  PAGE 8
+
+
   C:0088H         PUBLIC        _PRINTF517
   C:0082H         PUBLIC        _SPRINTF
   C:0082H         PUBLIC        _SPRINTF517
@@ -469,8 +451,5 @@ SYMBOL TABLE OF MODULE:  .\Objects\ATK-Hohai-zxy (BOARD)
   C:051FH         PUBLIC        ?C?CCASE
   -------         ENDMOD        ?C?CCASE
 
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_CTIMER_COUNT_INIT?TIM
-
-Program Size: data=37.1 xdata=0 code=1879
-LINK/LOCATE RUN COMPLETE.  1 WARNING(S),  0 ERROR(S)
+Program Size: data=37.1 xdata=0 code=1853
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

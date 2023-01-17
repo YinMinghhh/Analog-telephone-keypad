@@ -1,9 +1,9 @@
 ".\Objects\board.obj",
 ".\Objects\common.obj",
 ".\Objects\STARTUP.obj",
-".\Objects\isr.obj",
-".\Objects\main.obj",
 ".\Objects\TIM.obj",
-".\Objects\UART.obj" 
+".\Objects\UART.obj",
+".\Objects\isr.obj",
+".\Objects\main.obj" 
 TO ".\Objects\ATK-Hohai-zxy" 
 PRINT(".\Listings\ATK-Hohai-zxy.m51") RAMSIZE(256) 

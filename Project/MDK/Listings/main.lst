@@ -1,46 +1,60 @@
-C51 COMPILER V9.57.0.0   MAIN                                                              01/17/2023 20:01:43 PAGE 1   
+C51 COMPILER V9.57.0.0   MAIN                                                              01/17/2023 21:19:56 PAGE 1   
 
 
 C51 COMPILER V9.57.0.0, COMPILATION OF MODULE MAIN
 OBJECT MODULE PLACED IN .\Objects\main.obj
 COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ..\USER\src\main.c OPTIMIZE(8,SPEED) BROWSE INCDIR(..\..\Libraries\libra
-                    -ries;..\USER\inc;..\CODE) DEBUG OBJECTEXTEND PRINT(.\Listings\main.lst) TABS(2) OBJECT(.\Objects\main.obj)
+                    -ries;..\USER\inc;..\CODE;..\..\Libraries\zxy_libraries) DEBUG OBJECTEXTEND PRINT(.\Listings\main.lst) TABS(2) OBJECT(.\O
+                    -bjects\main.obj)
 
 line level    source
 
-   1          #include "TIM.h"
-   2          #include "UART.h"
-   3          #include <stdio.h>
-   4          
-   5          /***
-   6           * @brief   程序入口
-   7           * @author  zxy
-   8           * @date    2023-01-17
-   9           * 
-  10           * @note    1.CPU外部晶振12MHz
-  11           * @note    2.烧录时选择12T不加倍
-  12           * @note    3.定时器0中断周期10ms
-  13           * @note    4.串口通讯UART波特率2400
-  14          */
-  15          void main(){
-  16   1          sys_clk = 12000000;
-  17   1          board_init();           // 板子初始化并关闭总中断
-  18   1          pit_timer_ms(TIM_0, 10); // 定时器0中断初始化
-  19   1          UartInit();
-  20   1          printf("SYSclk:12M\r\nTIM0_PIT:10ms\r\nUART_BAUD:2400\r\n");
-  21   1          // UartInit();
-  22   1      
-  23   1          EnableGlobalIRQ();      // 打开总中断
-  24   1      
-  25   1          while(1){
-  26   2              ;
-  27   2          }
-  28   1      }
-  29          
+   1          /***
+   2           * @file    main.c
+   3           * @brief   存放程序入口
+   4           * @author  zxy
+   5           * @date    2023-01-17
+   6          */
+   7          
+   8          #include "TIM.h"
+   9          #include "UART.h"
+  10          #include <stdio.h>
+  11          
+  12          /***
+  13           * @brief   程序入口
+  14           * @author  zxy
+  15           * @date    2023-01-17
+  16           * 
+  17           * @note    1.CPU外部晶振12MHz
+  18           * @note    2.烧录时选择12T不加倍
+  19           * @note    3.定时器0中断周期10ms
+  20           * @note    4.串口通讯UART波特率2400
+  21          */
+  22          void main(){
+  23   1          void modules_init();
+  24   1          sys_clk = 12000000;
+  25   1          board_init();           // 基本寄存器初始化并关闭总中断
+  26   1          modules_init();         // 外设初始化
+  27   1          EnableGlobalIRQ();      // 打开总中断
+  28   1      
+  29   1          while(1){
+  30   2              ;
+  31   2          }
+  32   1      }
+  33          
+  34          /***
+  35           * @brief   外设初始化
+  36           * @date    2023-01-17
+  37          */
+  38          void modules_init(){
+  39   1          pit_timer_ms(TIM_0, 10);    // 定时器0中断初始化
+  40   1          UartInit();                 // 串口通讯初始化
+  41   1          printf("SYSclk:12M\r\nTIM0_PIT:10ms\r\nUART_BAUD:2400\r\n");    // 打印基本信息
+  42   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =     41    ----
+   CODE SIZE        =     44    ----
    CONSTANT SIZE    =     44    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
@@ -48,6 +62,8 @@ MODULE INFORMATION:   STATIC OVERLAYABLE
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.
+
+C51 COMPILER V9.57.0.0   MAIN                                                              01/17/2023 21:19:56 PAGE 2   
 
 
 C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
