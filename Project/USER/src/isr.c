@@ -15,7 +15,7 @@ void TM0_Isr() interrupt 1 {
 	cnt_10ms += 10;
 	if(cnt_10ms == 1000){
 		cnt_10ms = 0;
-		// LED1 = !LED1;
+		// LED1 = !LED1; 
 		// SendByte('F');
 	}
 }
