@@ -1,6 +1,6 @@
 #include "board.h"
 
-int32 sys_clk = 0;
+int32 sys_clk = 24000000;
 
 
 
