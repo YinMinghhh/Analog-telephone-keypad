@@ -12,20 +12,21 @@ void TM0_Isr() interrupt 1 {
 	if(i == 1000){
 		i = 0;
 		LED1 = !LED1;
-		SendByte('F');
+		// SendByte('F');
 	}
 }
 
+/***
+ * @brief	只负责接收数据
+ * @date	2023-01-17
+*/
 void UART1_Routine(void) interrupt 4 {
     uint8 res;
-    RI = 0;
-	res = SBUF;	//存储接收到的数据
-
-	LED2 = !LED2;
-	
-	SBUF = res;	//将接收到的数据放入到发送寄存器
-	while(!TI);		//等待发送数据完成
-	TI=0;			//清除发送完成标志位		
+    if(RI){	// receive
+		RI = 0;
+		res = SBUF;
+	}
+	putchar(res);
 }
 
 //void INT0_Routine(void) interrupt 0

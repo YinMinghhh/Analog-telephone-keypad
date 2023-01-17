@@ -6,5 +6,6 @@
 
 void UartInit(void);
 void SendByte(uint8 dat);
+int8 putchar(int8 dat);
 
 #endif // !_UART_H_
