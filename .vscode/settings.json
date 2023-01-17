@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "board.h": "c",
+        "common.h": "c",
+        "stc89c5x.h": "c"
+    }
+}

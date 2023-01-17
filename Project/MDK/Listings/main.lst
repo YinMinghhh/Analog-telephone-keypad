@@ -1,4 +1,4 @@
-C51 COMPILER V9.57.0.0   MAIN                                                              01/17/2023 14:43:17 PAGE 1   
+C51 COMPILER V9.57.0.0   MAIN                                                              01/17/2023 19:04:27 PAGE 1   
 
 
 C51 COMPILER V9.57.0.0, COMPILATION OF MODULE MAIN
@@ -9,7 +9,7 @@ COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ..\USER\src\main.c OPTIMIZE(8,SP
 line level    source
 
    1          #include "TIM.h"
-   2          
+   2          #include "UART.h"
    3          
    4          
    5          /***
@@ -18,19 +18,24 @@ line level    source
    8           * @date    2023-01-17
    9          */
   10          void main(){
-  11   1          board_init();
-  12   1        pit_timer_ms(TIM_0, 5);//定时器0中断配置
-  13   1          EA=1;//打开总中断
-  14   1        // TR0=1;//打开定时器 
-  15   1        while(1){     
-  16   2              ;
-  17   2        }   
-  18   1      }
-  19          
+  11   1          sys_clk = 24000000;
+  12   1          board_init();           // 板子初始化并关闭总中断
+  13   1          pit_timer_ms(TIM_0, 10); // 定时器0中断初始化
+  14   1      
+  15   1          UartInit();
+  16   1          // UartInit();
+  17   1      
+  18   1          EnableGlobalIRQ();      // 打开总中断
+  19   1      
+  20   1          while(1){
+  21   2              ;
+  22   2          }
+  23   1      }
+  24          
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =     16    ----
+   CODE SIZE        =     32    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----

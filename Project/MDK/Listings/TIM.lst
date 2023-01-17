@@ -1,4 +1,4 @@
-C51 COMPILER V9.57.0.0   TIM                                                               01/17/2023 14:38:51 PAGE 1   
+C51 COMPILER V9.57.0.0   TIM                                                               01/17/2023 18:53:14 PAGE 1   
 
 
 C51 COMPILER V9.57.0.0, COMPILATION OF MODULE TIM
@@ -12,58 +12,86 @@ line level    source
    2          #include "TIM.h"
    3          
    4          /***
-   5           * @brief   定时器0中断 初始化
-   6           * @date    2023-01-17
-   7          */
-   8          void time0_init(void)
-   9          {
-  10   1        TMOD|=0X01;//选择为定时器0模式，工作方式1
-  11   1        TH0=0XFC; //给定时器赋初值，定时1ms
-  12   1        TL0=0X18; 
-  13   1        ET0=1;//打开定时器0中断允许
-  14   1        EA=1;//打开总中断
-  15   1        TR0=1;//打开定时器   
-  16   1      }
-  17          
-  18          /***
-  19           * @brief   定时器0中断 初始化
-  20           * @date    2023-01-17
-  21          */
-  22          void pit_timer_ms(TIMN_enum tim_n, uint16 time_ms)
-  23          {
-  24   1        uint16 temp;
-  25   1        temp = (uint16)65536 - (uint16)(sys_clk / (12 * (1000 / time_ms)));
-  26   1        
-  27   1        if(TIM_0 == tim_n)
-  28   1        {
-  29   2          TMOD |= 0x00;   // 模式 0
-  30   2          TL0 = temp;   
-  31   2          TH0 = temp >> 8;
-  32   2          TR0 = 1;    // 启动定时器
-  33   2          ET0 = 1;    // 使能定时器中断
-  34   2        }
-  35   1        else if(TIM_1 == tim_n)
-  36   1        {
-  37   2          TMOD |= 0x00; // 模式 0
-  38   2          TL1 = temp;   
-  39   2          TH1 = temp >> 8;
-  40   2          TR1 = 1; // 启动定时器
-  41   2          ET1 = 1; // 使能定时器中断
-  42   2        }
-  43   1      }
-  44          
-  45          
+   5           * @brief   定时器中断 初始化
+   6           * @param   tim_n   定时器通道
+   7           * @param   time_ms 中断周期, 单位ms
+   8           * @date    2023-01-17
+   9           * Sample Uasge : 
+  10           *      pit_timer_ms(TIM_0, 5); // 初始化定时器0中断, 5ms运行一次
+  11          */
+  12          void pit_timer_ms(TIMN_enum tim_n, uint16 time_ms)
+  13          {
+  14   1        uint16 temp;
+  15   1        temp = (uint16)65536 - (uint16)(sys_clk / (12 * (1000 / time_ms)));
+  16   1        
+  17   1        if(TIM_0 == tim_n)
+  18   1        {
+  19   2          TMOD |= 0x00;   // 模式 0
+  20   2          TL0 = temp;   
+  21   2          TH0 = temp >> 8;
+  22   2          TR0 = 1;    // 启动定时器
+  23   2          ET0 = 1;    // 使能定时器中断
+  24   2        }
+  25   1        else if(TIM_1 == tim_n)
+  26   1        {
+  27   2          TMOD |= 0x00; // 模式 0
+  28   2          TL1 = temp;   
+  29   2          TH1 = temp >> 8;
+  30   2          TR1 = 1; // 启动定时器
+  31   2          ET1 = 1; // 使能定时器中断
+  32   2        }
+  33   1      }
+  34          
+  35          //--------------------------------------------------------------------------------------------------------
+             ------------
+  36          //  @brief      定时器初始化作为外部计数
+  37          //  @param      tim_n           选择模块
+  38          //  @return     void
+  39          //  @since      v1.0
+  40          //  Sample usage:               ctimer_count_init(CTIM0_P34);   //初始化定时器0，外部输入为P3.4
+             -引脚
+  41          //  @note                       串口1使用定时器1作为波特率发生器，
+  42          //                串口2使用定时器2作为波特率发生器，
+  43          //                串口3使用定时器3作为波特率发生器，
+  44          //                串口4使用定时器4作为波特率发生器，
+  45          //                              STC16F仅有定时器0-定时器4，这5个定时器。
+  46          //                编码器采集数据也需要定时器作为外部计数。
+  47          //--------------------------------------------------------------------------------------------------------
+             ------------
+  48          void ctimer_count_init(CTIMN_enum tim_n)
+  49          {
+  50   1        switch(tim_n)
+  51   1        {
+C51 COMPILER V9.57.0.0   TIM                                                               01/17/2023 18:53:14 PAGE 2   
+
+  52   2          case CTIM0_P34:
+  53   2          {
+  54   3            TL0 = 0; 
+  55   3            TH0 = 0; 
+  56   3            TMOD |= 0x04; //外部计数模式
+  57   3            TR0 = 1; //启动定时器
+  58   3            break;
+  59   3          }
+  60   2          
+  61   2          case CTIM1_P35:
+  62   2          {
+  63   3            TL1 = 0x00;
+  64   3            TH1 = 0x00;
+  65   3            TMOD |= 0x40; // 外部计数模式
+  66   3            TR1 = 1; // 启动定时器
+  67   3            break;
+  68   3          }
+  69   2        } 
+  70   1      } 
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =     84    ----
+   CODE SIZE        =     97    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----       1
    IDATA SIZE       =   ----    ----
-C51 COMPILER V9.57.0.0   TIM                                                               01/17/2023 14:38:51 PAGE 2   
-
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.
 
