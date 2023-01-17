@@ -1,8 +1,12 @@
+/***
+ * @file    board.c
+ * @author  zxy
+ * @date    2023-01-17
+*/
+
 #include "board.h"
 
 int32 sys_clk = 24000000;
-
-
 
 /***
  * @brief	板子初始化
@@ -16,8 +20,6 @@ void board_init(void){
 	TMOD = 0;
 	DisableGlobalIRQ();
 }
-
-
 
 /***
  * @brief	失能总中断
@@ -34,4 +36,3 @@ void DisableGlobalIRQ(void){
 void EnableGlobalIRQ(void){
 	EA = 1;
 }
-

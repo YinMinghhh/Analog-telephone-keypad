@@ -1,3 +1,9 @@
+/***
+ * @file    TIM.h
+ * @author  zxy
+ * @date    2023-01-17
+*/
+
 #ifndef _TIM_H_
 #define _TIM_H_
 
@@ -25,7 +31,6 @@ typedef enum
 
 
 void pit_timer_ms(TIMN_enum tim_n, uint16 time_ms);
-void ctimer_count_init(CTIMN_enum tim_n);
 
 
 #endif // !_TIM_H_

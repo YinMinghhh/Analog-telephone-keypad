@@ -1,3 +1,10 @@
+/***
+ * @file    main.c
+ * @brief   存放程序入口
+ * @author  zxy
+ * @date    2023-01-17
+*/
+
 #include "TIM.h"
 #include "UART.h"
 #include <stdio.h>
