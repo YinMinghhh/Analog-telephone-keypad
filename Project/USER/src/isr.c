@@ -7,7 +7,7 @@
 
 #include "UART.h"
 
-sbit LED1 = P2^0;
+// sbit LED1 = P2^0;
 
 
 void TM0_Isr() interrupt 1 {
@@ -15,7 +15,7 @@ void TM0_Isr() interrupt 1 {
 	cnt_10ms += 10;
 	if(cnt_10ms == 1000){
 		cnt_10ms = 0;
-		LED1 = !LED1;
+		// LED1 = !LED1;
 		// SendByte('F');
 	}
 }
