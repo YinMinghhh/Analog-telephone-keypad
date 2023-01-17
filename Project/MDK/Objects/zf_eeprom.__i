@@ -1,0 +1,1 @@
+"..\..\Libraries\seekfree_libraries\zf_eeprom.c" OPTIMIZE (8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\zf_eeprom.lst) TABS (2) OBJECT(.\Objects\zf_eeprom.obj)

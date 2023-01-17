@@ -1,0 +1,276 @@
+C51 COMPILER V9.57.0.0   ZF_TIM                                                            01/17/2023 13:14:25 PAGE 1   
+
+
+C51 COMPILER V9.57.0.0, COMPILATION OF MODULE ZF_TIM
+OBJECT MODULE PLACED IN .\Objects\zf_tim.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ..\..\Libraries\seekfree_libraries\zf_tim.c OPTIMIZE(8,SPEED) BROWSE DEB
+                    -UG OBJECTEXTEND PRINT(.\Listings\zf_tim.lst) TABS(2) OBJECT(.\Objects\zf_tim.obj)
+
+line level    source
+
+   1          /*********************************************************************************************************
+             -************
+   2           * COPYRIGHT NOTICE
+   3           * Copyright (c) 2020,逐飞科技
+   4           * All rights reserved.
+   5           * 技术讨论QQ群：一群：179029047(已满)  二群：244861897(已满)  三群：824575535
+   6           *
+   7           * 以下所有内容版权均属逐飞科技所有，未经允许不得用于商业用途，
+   8           * 欢迎各位使用并传播本程序，修改内容时必须保留逐飞科技的版权声明。
+   9           *
+  10           * @file          ctime
+  11           * @company       成都逐飞科技有限公司
+  12           * @author        逐飞科技(QQ790875685)
+  13           * @version       查看doc内version文件 版本说明
+  14           * @Software    MDK FOR C51 V9.60
+  15           * @Target core   STC8G2K64S4
+  16           * @Taobao      https://seekfree.taobao.com/
+  17           * @date          2020-4-14
+  18           *********************************************************************************************************
+             -***********/
+  19          
+  20          
+  21          #include "zf_tim.h"
+*** WARNING C318 IN LINE 22 OF ..\..\Libraries\seekfree_libraries\zf_tim.h: can't open file 'common.h'
+*** ERROR C129 IN LINE 53 OF ..\..\Libraries\seekfree_libraries\zf_tim.h: missing ';' before 'ctimer_count_read'
+  22          #include "board.h"
+*** WARNING C318 IN LINE 22 OF ..\..\Libraries\seekfree_libraries\zf_tim.c: can't open file 'board.h'
+  23          
+  24          
+  25          
+  26          //--------------------------------------------------------------------------------------------------------
+             ------------
+  27          //  @brief      定时器初始化作为外部计数
+  28          //  @param      tim_n           选择模块
+  29          //  @return     void
+  30          //  @since      v1.0
+  31          //  Sample usage:               ctimer_count_init(CTIM0_P34);   //初始化定时器0，外部输入为P3.4引脚
+  32          //  @note                       串口1使用定时器1作为波特率发生器，
+  33          //                串口2使用定时器2作为波特率发生器，
+  34          //                串口3使用定时器3作为波特率发生器，
+  35          //                串口4使用定时器4作为波特率发生器，
+  36          //                              STC8G仅有定时器0-定时器4，这5个定时器。
+  37          //                编码器采集数据也需要定时器作为外部计数。
+  38          //--------------------------------------------------------------------------------------------------------
+             ------------
+  39          void ctimer_count_init(CTIMN_enum tim_n)
+  40          {
+  41            switch(tim_n)
+  42            {
+  43              case CTIM0_P34:
+  44              {
+  45                TL0 = 0; 
+  46                TH0 = 0; 
+  47                TMOD |= 0x04; //外部计数模式
+C51 COMPILER V9.57.0.0   ZF_TIM                                                            01/17/2023 13:14:25 PAGE 2   
+
+  48                TR0 = 1; //启动定时器
+  49                break;
+  50              }
+  51              
+  52              case CTIM1_P35:
+  53              {
+  54                TL1 = 0x00;
+  55                TH1 = 0x00;
+  56                TMOD |= 0x40; // 外部计数模式
+  57                TR1 = 1; // 启动定时器
+  58                break;
+  59              }
+  60              
+  61              case CTIM2_P12:
+  62              {
+  63                T2L = 0x00;
+  64                T2H = 0x00;
+  65                AUXR |= 0x18; // 设置外部计数模式并启动定时器
+  66                break;
+  67              }
+  68              
+  69              case CTIM3_P04:
+  70              {
+  71                T3L = 0; 
+  72                T3H = 0;
+  73                T4T3M |= 0x0c; // 设置外部计数模式并启动定时器
+  74                break;
+  75              }
+  76              
+  77              case CTIM4_P06:
+  78              {
+  79                T4L = 0;
+  80                T4H = 0;
+  81                T4T3M |= 0xc0; // 设置外部计数模式并启动定时器
+  82                break;
+  83              }
+  84            
+  85            } 
+  86          } 
+  87          
+  88          //--------------------------------------------------------------------------------------------------------
+             ------------
+  89          //  @brief      获取计数数值
+  90          //  @param      countch     计数通道号及引脚
+  91          //  @return     uint32      返回计数值
+  92          //  Sample usage:           num = ctimer_count_read(CTIM0_P34);     
+  93          //--------------------------------------------------------------------------------------------------------
+             ------------
+  94          uint16 ctimer_count_read(CTIMN_enum tim_n)
+  95          {
+  96            uint16 dat;
+  97            
+  98            switch(tim_n)
+  99            {
+ 100              case CTIM0_P34:
+ 101              {
+ 102                dat = (uint8)TH0 << 8;
+ 103                dat = ((uint8)TL0) | dat;
+ 104                break;
+ 105              }
+ 106              case CTIM1_P35:
+ 107              {
+C51 COMPILER V9.57.0.0   ZF_TIM                                                            01/17/2023 13:14:25 PAGE 3   
+
+ 108                dat = (uint8)TH1 << 8;
+ 109                dat = ((uint8)TL1) | dat;
+ 110                break;
+ 111              }
+ 112              case CTIM2_P12:
+ 113              {
+ 114                dat = (uint8)T2H << 8;
+ 115                dat = ((uint8)T2L) | dat;
+ 116                break;
+ 117              }
+ 118              case CTIM3_P04:
+ 119              {
+ 120                dat = (uint8)T3H << 8;
+ 121                dat = ((uint8)T3L) | dat; 
+ 122                break;
+ 123              }
+ 124              case CTIM4_P06:
+ 125              {
+ 126                dat = (uint8)T4H << 8;
+ 127                dat = ((uint8)T4L) | dat;
+ 128                break;
+ 129              }
+ 130              
+ 131            }
+ 132          
+ 133          
+ 134            return dat;
+ 135          }
+ 136          
+ 137          
+ 138          //--------------------------------------------------------------------------------------------------------
+             ------------
+ 139          //  @brief      清除计数数值
+ 140          //  @param      countch     计数通道号及引脚
+ 141          //  @return     void      
+ 142          //  Sample usage:           ctimer_count_clean(CTIM0_P34);     
+ 143          //--------------------------------------------------------------------------------------------------------
+             ------------
+ 144          void ctimer_count_clean(CTIMN_enum tim_n)
+ 145          { 
+ 146            switch(tim_n)
+ 147            {
+ 148              case CTIM0_P34:
+ 149              {
+ 150                TR0 = 0;
+ 151                TH0 = 0;
+ 152                TL0 = 0;
+ 153                TR0 = 1;
+ 154                break;
+ 155              }
+ 156              case CTIM1_P35:
+ 157              {
+ 158                TR1 = 0;
+ 159                TH1 = 0;
+ 160                TL1 = 0;
+ 161                TR1 = 1;
+ 162                break;
+ 163              }
+ 164              case CTIM2_P12:
+ 165              {
+ 166                AUXR &= ~(1<<4);
+ 167                T2H = 0;
+C51 COMPILER V9.57.0.0   ZF_TIM                                                            01/17/2023 13:14:25 PAGE 4   
+
+ 168                T2L = 0;
+ 169                AUXR |= 1<<4;
+ 170                break;
+ 171              }
+ 172              case CTIM3_P04:
+ 173              {
+ 174                T4T3M &= ~(1<<3);
+ 175                T3H = 0;
+ 176                T3L = 0;
+ 177                T4T3M |= (1<<3);
+ 178                break;
+ 179              }
+ 180              case CTIM4_P06:
+ 181              {
+ 182                T4T3M &= ~(1<<7);
+ 183                T4H = 0;
+ 184                T4L = 0;
+ 185                T4T3M |= (1<<7);
+ 186                break;
+ 187              }
+ 188            }
+ 189          }
+ 190          
+ 191          //--------------------------------------------------------------------------------------------------------
+             ------------
+ 192          //  @brief      定时器周期中断
+ 193          //  @param      tim_n      定时器通道号
+ 194          //  @param      time_ms    时间(ms)
+ 195          //  @return     void      
+ 196          //  Sample usage:          pit_timer_ms(TIM_0, 10)
+ 197          //               使用定时器0做周期中断，时间10ms一次。
+ 198          //--------------------------------------------------------------------------------------------------------
+             ------------
+ 199          void pit_timer_ms(TIMN_enum tim_n,uint16 time_ms)
+ 200          {
+ 201            uint16 temp;
+ 202            temp = 65536 - (sys_clk / (12 * (1000 / time_ms)));
+ 203            
+ 204            if(TIM_0 == tim_n)
+ 205            {
+ 206              TMOD |= 0x00;   // 模式 0
+ 207              TL0 = temp;   
+ 208              TH0 = temp >> 8;
+ 209              TR0 = 1;    // 启动定时器
+ 210              ET0 = 1;    // 使能定时器中断
+ 211            }
+ 212            else if(TIM_1 == tim_n)
+ 213            {
+ 214              TMOD |= 0x00; // 模式 0
+ 215              TL1 = temp;   
+ 216              TH1 = temp >> 8;
+ 217              TR1 = 1; // 启动定时器
+ 218              ET1 = 1; // 使能定时器中断
+ 219            }
+ 220            else if(TIM_2 == tim_n)
+ 221            {
+ 222              T2L = temp;   
+ 223              T2H = temp >> 8;
+ 224              AUXR |= 0x10; // 启动定时器
+ 225              IE2 |= 0x04; // 使能定时器中断
+ 226            }
+ 227            else if(TIM_3 == tim_n)
+C51 COMPILER V9.57.0.0   ZF_TIM                                                            01/17/2023 13:14:25 PAGE 5   
+
+ 228            {
+ 229              T3L = temp;   
+ 230              T3H = temp >> 8;
+ 231              T4T3M |= 0x08; // 启动定时器
+ 232              IE2 |= 0x20; // 使能定时器中断
+ 233            }
+ 234            else if(TIM_4 == tim_n)
+ 235            {
+ 236              T4L = temp;   
+ 237              T4H = temp >> 8;
+ 238              T4T3M |= 0x80; // 启动定时器
+ 239              IE2 |= 0x40; // 使能定时器中断
+ 240            }
+ 241          }
+ 242          
+ 243          
+
+C51 COMPILATION COMPLETE.  2 WARNING(S),  1 ERROR(S)

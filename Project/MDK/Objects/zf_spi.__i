@@ -1,0 +1,1 @@
+"..\..\Libraries\seekfree_libraries\zf_spi.c" OPTIMIZE (8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\zf_spi.lst) TABS (2) OBJECT(.\Objects\zf_spi.obj)

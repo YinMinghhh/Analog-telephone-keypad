@@ -1,0 +1,273 @@
+C51 COMPILER V9.57.0.0   ZF_GPIO                                                           01/17/2023 13:14:24 PAGE 1   
+
+
+C51 COMPILER V9.57.0.0, COMPILATION OF MODULE ZF_GPIO
+OBJECT MODULE PLACED IN .\Objects\zf_gpio.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ..\..\Libraries\seekfree_libraries\zf_gpio.c OPTIMIZE(8,SPEED) BROWSE DE
+                    -BUG OBJECTEXTEND PRINT(.\Listings\zf_gpio.lst) TABS(2) OBJECT(.\Objects\zf_gpio.obj)
+
+line level    source
+
+   1          /*********************************************************************************************************
+             -************
+   2           * COPYRIGHT NOTICE
+   3           * Copyright (c) 2020,逐飞科技
+   4           * All rights reserved.
+   5           * 技术讨论QQ群：一群：179029047(已满)  二群：244861897(已满)  三群：824575535
+   6           *
+   7           * 以下所有内容版权均属逐飞科技所有，未经允许不得用于商业用途，
+   8           * 欢迎各位使用并传播本程序，修改内容时必须保留逐飞科技的版权声明。
+   9           *
+  10           * @file          gpio
+  11           * @company       成都逐飞科技有限公司
+  12           * @author        逐飞科技(QQ790875685)
+  13           * @version       查看doc内version文件 版本说明
+  14           * @Software    MDK FOR C51 V9.60
+  15           * @Target core   STC8G2K64S4
+  16           * @Taobao      https://seekfree.taobao.com/
+  17           * @date          2020-4-14
+  18           *********************************************************************************************************
+             -***********/
+  19          
+  20          
+  21          #include "zf_gpio.h"
+*** WARNING C318 IN LINE 24 OF ..\..\Libraries\seekfree_libraries\zf_gpio.h: can't open file 'common.h'
+  22          
+  23          
+  24          
+  25          
+  26          
+  27          
+  28          #define PxPU_BASE_ADDR  0xFE10 
+  29          
+  30          //--------------------------------------------------------------------------------------------------------
+             ------------
+  31          //  @brief      GPIO设置引脚上拉电阻设置
+  32          //  @param      pin         选择引脚（P0_0-P5_4）
+  33          //  @param      pull        设置上下拉电阻 NOPULL:不设置 PULLUP:上拉
+  34          //  @return     void
+  35          //  Sample usage:           gpio_pull_set(P0_0,NOPULL);       // 设置P0.0引脚没有上下拉电阻
+  36          //--------------------------------------------------------------------------------------------------------
+             ------------
+  37          void gpio_pull_set(PIN_enum pin, PULL_enum pull)
+  38          {
+  39   1        if(PULLUP == pull)
+  40   1        {
+  41   2          (*(unsigned char volatile xdata *)(PxPU_BASE_ADDR + (pin >> 4))) |= (1<<(pin&0x0F));
+  42   2        }
+  43   1        else if(NOPULL == pull)
+  44   1        {
+  45   2          (*(unsigned char volatile xdata *)(PxPU_BASE_ADDR + (pin >> 4))) &= ~(1<<(pin&0x0F));
+  46   2        }
+  47   1      }
+  48          
+  49          
+C51 COMPILER V9.57.0.0   ZF_GPIO                                                           01/17/2023 13:14:24 PAGE 2   
+
+  50          
+  51          //--------------------------------------------------------------------------------------------------------
+             ------------
+  52          //  @brief      GPIO设置引脚模式
+  53          //  @param      pin         选择引脚（P0_0-P5_4）
+  54          //  @param      mode        引脚模式 GPIO:准双向口, GPO_PP:推挽输出, GPI_IMPEDANCE:高阻输入, GPI_OD:开漏输
+             -出
+  55          //  @return     void
+  56          //  Sample usage:           gpio_mode(P0_0,GPIO);       // 设置P0.0设置为双向IO
+  57          //--------------------------------------------------------------------------------------------------------
+             ------------
+  58          void gpio_mode(PIN_enum pin, GPIOMODE_enum mode)
+  59          {
+  60   1        if(GPIO == mode)
+  61   1        {
+  62   2          if(0x00 == (pin&0xF0))  //P0
+  63   2          {
+  64   3            P0M1 &= ~(1<<(pin&0xF));
+*** ERROR C202 IN LINE 64 OF ..\..\Libraries\seekfree_libraries\zf_gpio.c: 'P0M1': undefined identifier
+  65   3            P0M0 &= ~(1<<(pin&0xF));
+*** ERROR C202 IN LINE 65 OF ..\..\Libraries\seekfree_libraries\zf_gpio.c: 'P0M0': undefined identifier
+  66   3          }
+  67   2          if(0x10 == (pin&0xF0))  //P1
+  68   2          {
+  69   3            P1M1 &= ~(1<<(pin&0xF));
+*** ERROR C202 IN LINE 69 OF ..\..\Libraries\seekfree_libraries\zf_gpio.c: 'P1M1': undefined identifier
+  70   3            P1M0 &= ~(1<<(pin&0xF));
+*** ERROR C202 IN LINE 70 OF ..\..\Libraries\seekfree_libraries\zf_gpio.c: 'P1M0': undefined identifier
+  71   3          }
+  72   2          if(0x20 == (pin&0xF0))  //P2
+  73   2          {
+  74   3            P2M1 &= ~(1<<(pin&0xF));
+*** ERROR C202 IN LINE 74 OF ..\..\Libraries\seekfree_libraries\zf_gpio.c: 'P2M1': undefined identifier
+  75   3            P2M0 &= ~(1<<(pin&0xF));
+*** ERROR C202 IN LINE 75 OF ..\..\Libraries\seekfree_libraries\zf_gpio.c: 'P2M0': undefined identifier
+  76   3          }
+  77   2          
+  78   2          if(0x30 == (pin&0xF0))  //P3
+  79   2          {
+  80   3            P3M1 &= ~(1<<(pin&0xF));
+*** ERROR C202 IN LINE 80 OF ..\..\Libraries\seekfree_libraries\zf_gpio.c: 'P3M1': undefined identifier
+  81   3            P3M0 &= ~(1<<(pin&0xF));
+*** ERROR C202 IN LINE 81 OF ..\..\Libraries\seekfree_libraries\zf_gpio.c: 'P3M0': undefined identifier
+  82   3          }
+  83   2          if(0x40 == (pin&0xF0))  //P4
+  84   2          {
+  85   3            P4M1 &= ~(1<<(pin&0xF));
+*** ERROR C202 IN LINE 85 OF ..\..\Libraries\seekfree_libraries\zf_gpio.c: 'P4M1': undefined identifier
+  86   3            P4M0 &= ~(1<<(pin&0xF));
+*** ERROR C202 IN LINE 86 OF ..\..\Libraries\seekfree_libraries\zf_gpio.c: 'P4M0': undefined identifier
+  87   3          }
+  88   2          if(0x50 == (pin&0xF0))  //P5
+  89   2          {
+  90   3            P5M1 &= ~(1<<(pin&0xF));
+*** ERROR C202 IN LINE 90 OF ..\..\Libraries\seekfree_libraries\zf_gpio.c: 'P5M1': undefined identifier
+  91   3            P5M0 &= ~(1<<(pin&0xF));
+*** ERROR C202 IN LINE 91 OF ..\..\Libraries\seekfree_libraries\zf_gpio.c: 'P5M0': undefined identifier
+  92   3          }
+  93   2        }
+  94   1        else if(GPO_PP == mode)
+  95   1        {
+  96   2          if(0x00 == (pin&0xF0))  //P0
+C51 COMPILER V9.57.0.0   ZF_GPIO                                                           01/17/2023 13:14:24 PAGE 3   
+
+  97   2          {
+  98   3            P0M1 &= ~(1<<(pin&0xF));
+*** ERROR C202 IN LINE 98 OF ..\..\Libraries\seekfree_libraries\zf_gpio.c: 'P0M1': undefined identifier
+  99   3            P0M0 |=  (1<<(pin&0xF));
+*** ERROR C202 IN LINE 99 OF ..\..\Libraries\seekfree_libraries\zf_gpio.c: 'P0M0': undefined identifier
+ 100   3          }
+ 101   2          if(0x10 == (pin&0xF0))  //P1
+ 102   2          {
+ 103   3            P1M1 &= ~(1<<(pin&0xF));
+*** ERROR C202 IN LINE 103 OF ..\..\Libraries\seekfree_libraries\zf_gpio.c: 'P1M1': undefined identifier
+ 104   3            P1M0 |=  (1<<(pin&0xF));
+*** ERROR C202 IN LINE 104 OF ..\..\Libraries\seekfree_libraries\zf_gpio.c: 'P1M0': undefined identifier
+ 105   3          }
+ 106   2          if(0x20 == (pin&0xF0))  //P2
+ 107   2          {
+ 108   3            P2M1 &= ~(1<<(pin&0xF));
+*** ERROR C202 IN LINE 108 OF ..\..\Libraries\seekfree_libraries\zf_gpio.c: 'P2M1': undefined identifier
+ 109   3            P2M0 |=  (1<<(pin&0xF));
+*** ERROR C202 IN LINE 109 OF ..\..\Libraries\seekfree_libraries\zf_gpio.c: 'P2M0': undefined identifier
+ 110   3          }
+ 111   2          
+ 112   2          if(0x30 == (pin&0xF0))  //P3
+ 113   2          {
+ 114   3            P3M1 &= ~(1<<(pin&0xF));
+*** ERROR C202 IN LINE 114 OF ..\..\Libraries\seekfree_libraries\zf_gpio.c: 'P3M1': undefined identifier
+ 115   3            P3M0 |=  (1<<(pin&0xF));
+*** ERROR C202 IN LINE 115 OF ..\..\Libraries\seekfree_libraries\zf_gpio.c: 'P3M0': undefined identifier
+ 116   3          }
+ 117   2          if(0x40 == (pin&0xF0))  //P4
+ 118   2          {
+ 119   3            P4M1 &= ~(1<<(pin&0xF));
+*** ERROR C202 IN LINE 119 OF ..\..\Libraries\seekfree_libraries\zf_gpio.c: 'P4M1': undefined identifier
+ 120   3            P4M0 |=  (1<<(pin&0xF));
+*** ERROR C202 IN LINE 120 OF ..\..\Libraries\seekfree_libraries\zf_gpio.c: 'P4M0': undefined identifier
+ 121   3          }
+ 122   2          if(0x50 == (pin&0xF0))  //P5
+ 123   2          {
+ 124   3            P5M1 &= ~(1<<(pin&0xF));
+*** ERROR C202 IN LINE 124 OF ..\..\Libraries\seekfree_libraries\zf_gpio.c: 'P5M1': undefined identifier
+ 125   3            P5M0 |=  (1<<(pin&0xF));
+*** ERROR C202 IN LINE 125 OF ..\..\Libraries\seekfree_libraries\zf_gpio.c: 'P5M0': undefined identifier
+ 126   3          }
+ 127   2        }
+ 128   1        else if(GPI_IMPEDANCE == mode)
+ 129   1        {
+ 130   2          if(0x00 == (pin&0xF0))  //P0
+ 131   2          {
+ 132   3            P0M1 |=  (1<<(pin&0xF));
+*** ERROR C202 IN LINE 132 OF ..\..\Libraries\seekfree_libraries\zf_gpio.c: 'P0M1': undefined identifier
+ 133   3            P0M0 &= ~(1<<(pin&0xF));
+*** ERROR C202 IN LINE 133 OF ..\..\Libraries\seekfree_libraries\zf_gpio.c: 'P0M0': undefined identifier
+ 134   3          }
+ 135   2          if(0x10 == (pin&0xF0))  //P1
+ 136   2          {
+ 137   3            P1M1 |=  (1<<(pin&0xF));
+*** ERROR C202 IN LINE 137 OF ..\..\Libraries\seekfree_libraries\zf_gpio.c: 'P1M1': undefined identifier
+ 138   3            P1M0 &= ~(1<<(pin&0xF));
+*** ERROR C202 IN LINE 138 OF ..\..\Libraries\seekfree_libraries\zf_gpio.c: 'P1M0': undefined identifier
+ 139   3          }
+ 140   2          if(0x20 == (pin&0xF0))  //P2
+ 141   2          {
+ 142   3            P2M1 |=  (1<<(pin&0xF));
+C51 COMPILER V9.57.0.0   ZF_GPIO                                                           01/17/2023 13:14:24 PAGE 4   
+
+*** ERROR C202 IN LINE 142 OF ..\..\Libraries\seekfree_libraries\zf_gpio.c: 'P2M1': undefined identifier
+ 143   3            P2M0 &= ~(1<<(pin&0xF));
+*** ERROR C202 IN LINE 143 OF ..\..\Libraries\seekfree_libraries\zf_gpio.c: 'P2M0': undefined identifier
+ 144   3          }
+ 145   2          
+ 146   2          if(0x30 == (pin&0xF0))  //P3
+ 147   2          {
+ 148   3            P3M1 |=  (1<<(pin&0xF));
+*** ERROR C202 IN LINE 148 OF ..\..\Libraries\seekfree_libraries\zf_gpio.c: 'P3M1': undefined identifier
+ 149   3            P3M0 &= ~(1<<(pin&0xF));
+*** ERROR C202 IN LINE 149 OF ..\..\Libraries\seekfree_libraries\zf_gpio.c: 'P3M0': undefined identifier
+ 150   3          }
+ 151   2          if(0x40 == (pin&0xF0))  //P4
+ 152   2          {
+ 153   3            P4M1 |=  (1<<(pin&0xF));
+*** ERROR C202 IN LINE 153 OF ..\..\Libraries\seekfree_libraries\zf_gpio.c: 'P4M1': undefined identifier
+ 154   3            P4M0 &= ~(1<<(pin&0xF));
+*** ERROR C202 IN LINE 154 OF ..\..\Libraries\seekfree_libraries\zf_gpio.c: 'P4M0': undefined identifier
+ 155   3          }
+ 156   2          if(0x50 == (pin&0xF0))  //P5
+ 157   2          {
+ 158   3            P5M1 |=  (1<<(pin&0xF));
+*** ERROR C202 IN LINE 158 OF ..\..\Libraries\seekfree_libraries\zf_gpio.c: 'P5M1': undefined identifier
+ 159   3            P5M0 &= ~(1<<(pin&0xF));
+*** ERROR C202 IN LINE 159 OF ..\..\Libraries\seekfree_libraries\zf_gpio.c: 'P5M0': undefined identifier
+ 160   3          }
+ 161   2        }
+ 162   1        else if(GPI_OD == mode)
+ 163   1        {
+ 164   2          if(0x00 == (pin&0xF0))  //P0
+ 165   2          {
+ 166   3            P0M1 |= (1<<(pin&0xF));
+*** ERROR C202 IN LINE 166 OF ..\..\Libraries\seekfree_libraries\zf_gpio.c: 'P0M1': undefined identifier
+ 167   3            P0M0 |= (1<<(pin&0xF));
+*** ERROR C202 IN LINE 167 OF ..\..\Libraries\seekfree_libraries\zf_gpio.c: 'P0M0': undefined identifier
+ 168   3          }
+ 169   2          if(0x10 == (pin&0xF0))  //P1
+ 170   2          {
+ 171   3            P1M1 |= (1<<(pin&0xF));
+*** ERROR C202 IN LINE 171 OF ..\..\Libraries\seekfree_libraries\zf_gpio.c: 'P1M1': undefined identifier
+ 172   3            P1M0 |= (1<<(pin&0xF));
+*** ERROR C202 IN LINE 172 OF ..\..\Libraries\seekfree_libraries\zf_gpio.c: 'P1M0': undefined identifier
+ 173   3          }
+ 174   2          if(0x20 == (pin&0xF0))  //P2
+ 175   2          {
+ 176   3            P2M1 |= (1<<(pin&0xF));
+*** ERROR C202 IN LINE 176 OF ..\..\Libraries\seekfree_libraries\zf_gpio.c: 'P2M1': undefined identifier
+ 177   3            P2M0 |= (1<<(pin&0xF));
+*** ERROR C202 IN LINE 177 OF ..\..\Libraries\seekfree_libraries\zf_gpio.c: 'P2M0': undefined identifier
+ 178   3          }
+ 179   2          
+ 180   2          if(0x30 == (pin&0xF0))  //P3
+ 181   2          {
+ 182   3            P3M1 |= (1<<(pin&0xF));
+*** ERROR C202 IN LINE 182 OF ..\..\Libraries\seekfree_libraries\zf_gpio.c: 'P3M1': undefined identifier
+ 183   3            P3M0 |= (1<<(pin&0xF));
+*** ERROR C202 IN LINE 183 OF ..\..\Libraries\seekfree_libraries\zf_gpio.c: 'P3M0': undefined identifier
+ 184   3          }
+ 185   2          if(0x40 == (pin&0xF0))  //P4
+ 186   2          {
+ 187   3            P4M1 |= (1<<(pin&0xF));
+*** ERROR C202 IN LINE 187 OF ..\..\Libraries\seekfree_libraries\zf_gpio.c: 'P4M1': undefined identifier
+C51 COMPILER V9.57.0.0   ZF_GPIO                                                           01/17/2023 13:14:24 PAGE 5   
+
+ 188   3            P4M0 |= (1<<(pin&0xF));
+*** ERROR C202 IN LINE 188 OF ..\..\Libraries\seekfree_libraries\zf_gpio.c: 'P4M0': undefined identifier
+ 189   3          }
+ 190   2          if(0x50 == (pin&0xF0))  //P5
+ 191   2          {
+ 192   3            P5M1 |= (1<<(pin&0xF));
+*** ERROR C202 IN LINE 192 OF ..\..\Libraries\seekfree_libraries\zf_gpio.c: 'P5M1': undefined identifier
+ 193   3            P5M0 |= (1<<(pin&0xF));
+*** ERROR C202 IN LINE 193 OF ..\..\Libraries\seekfree_libraries\zf_gpio.c: 'P5M0': undefined identifier
+ 194   3          }
+ 195   2        }
+ 196   1      }
+ 197          
+
+C51 COMPILATION COMPLETE.  1 WARNING(S),  48 ERROR(S)

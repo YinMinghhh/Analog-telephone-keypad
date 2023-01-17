@@ -1,0 +1,43 @@
+C51 COMPILER V9.57.0.0   MAIN                                                              01/17/2023 14:43:17 PAGE 1   
+
+
+C51 COMPILER V9.57.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ..\USER\src\main.c OPTIMIZE(8,SPEED) BROWSE INCDIR(..\..\Libraries\libra
+                    -ries;..\USER\inc;..\CODE) DEBUG OBJECTEXTEND PRINT(.\Listings\main.lst) TABS(2) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include "TIM.h"
+   2          
+   3          
+   4          
+   5          /***
+   6           * @brief   程序入口
+   7           * @author  zxy
+   8           * @date    2023-01-17
+   9          */
+  10          void main(){
+  11   1          board_init();
+  12   1        pit_timer_ms(TIM_0, 5);//定时器0中断配置
+  13   1          EA=1;//打开总中断
+  14   1        // TR0=1;//打开定时器 
+  15   1        while(1){     
+  16   2              ;
+  17   2        }   
+  18   1      }
+  19          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     16    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,77 @@
+C51 COMPILER V9.57.0.0   ISR                                                               01/17/2023 14:43:16 PAGE 1   
+
+
+C51 COMPILER V9.57.0.0, COMPILATION OF MODULE ISR
+OBJECT MODULE PLACED IN .\Objects\isr.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ..\USER\src\isr.c OPTIMIZE(8,SPEED) BROWSE INCDIR(..\..\Libraries\librar
+                    -ies;..\USER\inc;..\CODE) DEBUG OBJECTEXTEND PRINT(.\Listings\isr.lst) TABS(2) OBJECT(.\Objects\isr.obj)
+
+line level    source
+
+   1          #include "board.h"
+   2          
+   3          sbit LED1=P2^0;
+   4          
+   5          void TM0_Isr() interrupt 1
+   6          {
+   7   1        static uint16 i = 0;//定义静态变量i
+   8   1        i += 5;
+   9   1        if(i==1000)
+  10   1        {
+  11   2          i=0;
+  12   2          LED1 =! LED1; 
+  13   2        }   
+  14   1      }
+  15          
+  16          void TM1_Isr() interrupt 3
+  17          {
+  18   1      
+  19   1      }
+  20          
+  21          
+  22          //void INT0_Routine(void) interrupt 0
+  23          //void TM0_Rountine(void) interrupt 1
+  24          //void INT1_Routine(void) interrupt 2
+  25          //void TM1_Rountine(void) interrupt 3
+  26          //void UART1_Routine(void) interrupt 4
+  27          //void ADC_Routine(void) interrupt 5
+  28          //void LVD_Routine(void) interrupt 6
+  29          //void PCA_Routine(void) interrupt 7
+  30          //void UART2_Routine(void) interrupt 8
+  31          //void SPI_Routine(void) interrupt 9
+  32          //void INT2_Routine(void) interrupt 10
+  33          //void INT3_Routine(void) interrupt 11
+  34          //void TM2_Routine(void) interrupt 12
+  35          //void INT4_Routine(void) interrupt 16
+  36          //void UART3_Routine(void) interrupt 17
+  37          //void UART4_Routine(void) interrupt 18
+  38          //void TM3_Routine(void) interrupt 19
+  39          //void TM4_Routine(void) interrupt 20
+  40          //void CMP_Routine(void) interrupt 21
+  41          //void PWM0_Routine(void) interrupt 22
+  42          //void PWM0FD_Routine(void) interrupt 23
+  43          //void I2C_Routine(void) interrupt 24
+  44          //void PWM1_Routine(void) interrupt 28
+  45          //void PWM2_Routine(void) interrupt 29
+  46          //void PWM3_Routine(void) interrupt 30
+  47          //void PWM4_Routine(void) interrupt 31
+  48          //void PWM5_Routine(void) interrupt 32
+  49          //void PWM2FD_Routine(void) interrupt 33
+  50          //void PWM4FD_Routine(void) interrupt 34
+  51          //void TKSU_Routine(void) interrupt 35
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+C51 COMPILER V9.57.0.0   ISR                                                               01/17/2023 14:43:16 PAGE 2   
+
+   CODE SIZE        =     39    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      2    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

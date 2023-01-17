@@ -1,0 +1,1 @@
+"..\..\Libraries\seekfree_libraries\zf_iic.c" OPTIMIZE (8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\zf_iic.lst) TABS (2) OBJECT(.\Objects\zf_iic.obj)

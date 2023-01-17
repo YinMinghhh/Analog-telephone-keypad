@@ -1,0 +1,423 @@
+C51 COMPILER V9.57.0.0   ZF_IIC                                                            01/17/2023 13:14:24 PAGE 1   
+
+
+C51 COMPILER V9.57.0.0, COMPILATION OF MODULE ZF_IIC
+OBJECT MODULE PLACED IN .\Objects\zf_iic.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ..\..\Libraries\seekfree_libraries\zf_iic.c OPTIMIZE(8,SPEED) BROWSE DEB
+                    -UG OBJECTEXTEND PRINT(.\Listings\zf_iic.lst) TABS(2) OBJECT(.\Objects\zf_iic.obj)
+
+line level    source
+
+   1          /*********************************************************************************************************
+             -************
+   2           * COPYRIGHT NOTICE
+   3           * Copyright (c) 2020,Öğ·É¿Æ¼¼
+   4           * All rights reserved.
+   5           * ¼¼ÊõÌÖÂÛQQÈº£ºÒ»Èº£º179029047(ÒÑÂú)  ¶şÈº£º244861897(ÒÑÂú)  ÈıÈº£º824575535
+   6           *
+   7           * ÒÔÏÂËùÓĞÄÚÈİ°æÈ¨¾ùÊôÖğ·É¿Æ¼¼ËùÓĞ£¬Î´¾­ÔÊĞí²»µÃÓÃÓÚÉÌÒµÓÃÍ¾£¬
+   8           * »¶Ó­¸÷Î»Ê¹ÓÃ²¢´«²¥±¾³ÌĞò£¬ĞŞ¸ÄÄÚÈİÊ±±ØĞë±£ÁôÖğ·É¿Æ¼¼µÄ°æÈ¨ÉùÃ÷¡£
+   9           *
+  10           * @file          iic
+  11           * @company       ³É¶¼Öğ·É¿Æ¼¼ÓĞÏŞ¹«Ë¾
+  12           * @author        Öğ·É¿Æ¼¼(QQ790875685)
+  13           * @version       ²é¿´docÄÚversionÎÄ¼ş °æ±¾ËµÃ÷
+  14           * @Software    MDK FOR C51 V9.60
+  15           * @Target core   STC8G2K64S4
+  16           * @Taobao      https://seekfree.taobao.com/
+  17           * @date          2020-4-14
+  18           *********************************************************************************************************
+             -***********/
+  19          
+  20          #include "zf_iic.h"
+*** WARNING C318 IN LINE 24 OF ..\..\Libraries\seekfree_libraries\zf_iic.h: can't open file 'common.h'
+*** ERROR C141 IN LINE 56 OF ..\..\Libraries\seekfree_libraries\zf_iic.h: syntax error near 'wait_time', expected ')'
+*** ERROR C129 IN LINE 57 OF ..\..\Libraries\seekfree_libraries\zf_iic.h: missing ';' before 'iic_write_reg'
+  21          
+  22          
+  23          
+  24          //--------------------------------------------------------------------------------------------------------
+             ------------
+  25          //  @brief      ÄÚ²¿Ê¹ÓÃÓÃ»§ÎŞĞè¹ØĞÄ
+  26          //  @param      NULL              
+  27          //  @return     void
+  28          //  Sample usage:               ÎŞĞèÓÃ»§µ÷ÓÃ£¬ÓÃ»§ÇëÊ¹ÓÃhÎÄ¼şÖĞµÄºê¶¨Òå
+  29          //--------------------------------------------------------------------------------------------------------
+             ------------
+  30          void iic_delay_us(uint16 x) //33.1776Mhz
+  31          {
+  32              uint8 i;
+  33              while(x--)
+  34              {
+  35              i = 9;
+  36              while (--i);
+  37              }
+  38          }
+  39          
+  40          
+  41          //--------------------------------------------------------------------------------------------------------
+             ------------
+  42          //  @brief      ÄÚ²¿Ê¹ÓÃÓÃ»§ÎŞĞè¹ØĞÄ
+  43          //  @param      NULL              
+  44          //  @return     void
+  45          //  Sample usage:               ÎŞĞèÓÃ»§µ÷ÓÃ£¬ÓÃ»§ÇëÊ¹ÓÃhÎÄ¼şÖĞµÄºê¶¨Òå
+  46          //--------------------------------------------------------------------------------------------------------
+C51 COMPILER V9.57.0.0   ZF_IIC                                                            01/17/2023 13:14:24 PAGE 2   
+
+             ------------
+  47          uint8 wait(void)
+  48          {
+  49              uint16 count = 0;
+  50              uint8 ret = IIC_SEND_OK;
+  51              while (!(I2CMSST & 0x40))
+  52              {
+  53                  iic_delay_us(1);
+  54                  if(count++ >= 30)//µÈ´ı³¬¹ı30us£¬ÔòÍË³öµÈ´ı¡£
+  55                  {
+  56                      ret = IIC_SEND_FAIL;
+  57                      break;
+  58                  }
+  59              }
+  60              I2CMSST &= ~0x40;
+  61              return ret;
+  62          }
+  63          
+  64          //--------------------------------------------------------------------------------------------------------
+             ------------
+  65          //  @brief      ÄÚ²¿Ê¹ÓÃÓÃ»§ÎŞĞè¹ØĞÄ
+  66          //  @param      NULL              
+  67          //  @return     void
+  68          //  Sample usage:               ÎŞĞèÓÃ»§µ÷ÓÃ£¬ÓÃ»§ÇëÊ¹ÓÃhÎÄ¼şÖĞµÄºê¶¨Òå
+  69          //--------------------------------------------------------------------------------------------------------
+             ------------
+  70          uint8 start(void)
+  71          {
+  72              uint8 ret;
+  73              I2CMSCR = 0x01;                             //·¢ËÍstartÃüÁî
+  74              ret = wait();
+  75              return ret;
+  76          }
+  77          
+  78          //--------------------------------------------------------------------------------------------------------
+             ------------
+  79          //  @brief      ÄÚ²¿Ê¹ÓÃÓÃ»§ÎŞĞè¹ØĞÄ
+  80          //  @param      NULL              
+  81          //  @return     void
+  82          //  Sample usage:               ÎŞĞèÓÃ»§µ÷ÓÃ£¬ÓÃ»§ÇëÊ¹ÓÃhÎÄ¼şÖĞµÄºê¶¨Òå
+  83          //--------------------------------------------------------------------------------------------------------
+             ------------
+  84          uint8 send_data(char dat)
+  85          {
+  86              uint8 ret;
+  87              I2CTXD = dat;                               //Ğ´Êı¾İµ½Êı¾İ»º³åÇø
+  88              I2CMSCR = 0x02;                             //·¢ËÍSENDÃüÁî
+  89              ret = wait();
+  90              return ret;
+  91          }
+  92          
+  93          //--------------------------------------------------------------------------------------------------------
+             ------------
+  94          //  @brief      ÄÚ²¿Ê¹ÓÃÓÃ»§ÎŞĞè¹ØĞÄ
+  95          //  @param      NULL              
+  96          //  @return     void
+  97          //  Sample usage:               ÎŞĞèÓÃ»§µ÷ÓÃ£¬ÓÃ»§ÇëÊ¹ÓÃhÎÄ¼şÖĞµÄºê¶¨Òå
+  98          //--------------------------------------------------------------------------------------------------------
+             ------------
+  99          uint8 recv_ack(void)
+ 100          {
+ 101              uint8 ret;
+C51 COMPILER V9.57.0.0   ZF_IIC                                                            01/17/2023 13:14:24 PAGE 3   
+
+ 102              I2CMSCR = 0x03;                             //·¢ËÍ¶ÁACKÃüÁî
+ 103              ret = wait();
+ 104              return ret;
+ 105          }
+ 106          
+ 107          //--------------------------------------------------------------------------------------------------------
+             ------------
+ 108          //  @brief      ÄÚ²¿Ê¹ÓÃÓÃ»§ÎŞĞè¹ØĞÄ
+ 109          //  @param      NULL              
+ 110          //  @return     void
+ 111          //  Sample usage:               ÎŞĞèÓÃ»§µ÷ÓÃ£¬ÓÃ»§ÇëÊ¹ÓÃhÎÄ¼şÖĞµÄºê¶¨Òå
+ 112          //--------------------------------------------------------------------------------------------------------
+             ------------
+ 113          char recv_data(void)              //½ÓÊÕÊı¾İ
+ 114          {
+ 115              I2CMSCR = 0x04;                             //·¢ËÍRECVÃüÁî
+ 116              wait();
+ 117              return I2CRXD;
+ 118          }
+ 119          
+ 120          //--------------------------------------------------------------------------------------------------------
+             ------------
+ 121          //  @brief      ÄÚ²¿Ê¹ÓÃÓÃ»§ÎŞĞè¹ØĞÄ
+ 122          //  @param      NULL              
+ 123          //  @return     void
+ 124          //  Sample usage:               ÎŞĞèÓÃ»§µ÷ÓÃ£¬ÓÃ»§ÇëÊ¹ÓÃhÎÄ¼şÖĞµÄºê¶¨Òå
+ 125          //--------------------------------------------------------------------------------------------------------
+             ------------
+ 126          uint8 send_ack(void)
+ 127          {
+ 128            uint8 ret;
+ 129              I2CMSST = 0x00;                             //ÉèÖÃACKĞÅºÅ
+ 130              I2CMSCR = 0x05;                             //·¢ËÍACKÃüÁî
+ 131              ret = wait();
+ 132              return ret;
+ 133          }
+ 134          
+ 135          //--------------------------------------------------------------------------------------------------------
+             ------------
+ 136          //  @brief      ÄÚ²¿Ê¹ÓÃÓÃ»§ÎŞĞè¹ØĞÄ
+ 137          //  @param      NULL              
+ 138          //  @return     void
+ 139          //  Sample usage:               ÎŞĞèÓÃ»§µ÷ÓÃ£¬ÓÃ»§ÇëÊ¹ÓÃhÎÄ¼şÖĞµÄºê¶¨Òå
+ 140          //--------------------------------------------------------------------------------------------------------
+             ------------
+ 141          void send_nak(void)
+ 142          {
+ 143              I2CMSST = 0x01;                             //ÉèÖÃNAKĞÅºÅ
+ 144              I2CMSCR = 0x05;                             //·¢ËÍACKÃüÁî
+ 145              wait();
+ 146          }
+ 147          
+ 148          //--------------------------------------------------------------------------------------------------------
+             ------------
+ 149          //  @brief      ÄÚ²¿Ê¹ÓÃÓÃ»§ÎŞĞè¹ØĞÄ
+ 150          //  @param      NULL              
+ 151          //  @return     void
+ 152          //  Sample usage:               ÎŞĞèÓÃ»§µ÷ÓÃ£¬ÓÃ»§ÇëÊ¹ÓÃhÎÄ¼şÖĞµÄºê¶¨Òå
+ 153          //--------------------------------------------------------------------------------------------------------
+             ------------
+ 154          uint8 stop(void)
+ 155          {
+C51 COMPILER V9.57.0.0   ZF_IIC                                                            01/17/2023 13:14:24 PAGE 4   
+
+ 156              uint8 ret;
+ 157              I2CMSCR = 0x06;                             //·¢ËÍstopÃüÁî
+ 158              ret = wait();
+ 159              return ret;
+ 160          }
+ 161          
+ 162          //--------------------------------------------------------------------------------------------------------
+             ------------
+ 163          //  @brief      Ó²¼şIIC³õÊ¼»¯
+ 164          //  @param      iic_n           Ñ¡ÔñIICÄ£¿é
+ 165          //  @param      wait_time       I2C×ÜÏßËÙ¶È£¨µÈ´ıÊ±ÖÓÊı£©¿ØÖÆ: ËÙ¶ÈÉèÖÃÎªµÈ´ıwait_time*2+1¸öÊ±ÖÓ
+ 166          //  @return     void
+ 167          //  Sample usage:              
+ 168          //--------------------------------------------------------------------------------------------------------
+             ------------
+ 169          void iic_init(IICN_enum iic_n, IIC_PIN_enum scl_pin, IIC_PIN_enum sda_pin, uint32 wait_time)
+ 170          {
+ 171            scl_pin = scl_pin;
+ 172            sda_pin = sda_pin;
+ 173              P_SW2 &= ~(0x03<<4);
+ 174              P_SW2 |= 1<<7;  //½«EAXFR¼Ä´æÆ÷ÖÃ1£¬ÕâÑù²ÅÄÜÊ¹ÓÃÌØÊâ¹¦ÄÜ¼Ä´æÆ÷ÎªÀ©Õ¹SFR£¬·ÃÎÊÂß¼­µØÖ·Î»ÓÚ XDATA ÇøÓò
+ 175              switch(iic_n)
+ 176              {
+ 177              case IIC_1:
+ 178                  P_SW2 |= (0x00<<4); //SCL:P1.5  SDA:P1.4
+ 179                  break;
+ 180              case IIC_2:
+ 181                  P_SW2 |= (0x01<<4); //SCL:P2.5  SDA:P2.4
+ 182                  break;
+ 183              case IIC_3:
+ 184                  P_SW2 |= (0x02<<4); //SCL:P7.7  SDA:P7.6
+ 185                  break;
+ 186              case IIC_4:
+ 187                  P_SW2 |= (0x03<<4); //SCL:P3.2  SDA:P3.3
+ 188                  break;
+ 189              }
+ 190          
+ 191              I2CCFG |= 1<<6;   //Ö÷»úÄ£Ê½
+ 192              I2CCFG |= 1<<7;   //Ê¹ÄÜIIC
+ 193              I2CCFG |= wait_time;//ËÙ¶ÈÉèÖÃÎªµÈ´ıwait_time*2+1¸öÊ±ÖÓ
+ 194              I2CMSST = 0x00;   //Ö÷»ú×´Ì¬¼Ä´æÆ÷
+ 195          }
+ 196          
+ 197          //--------------------------------------------------------------------------------------------------------
+             ------------
+ 198          //  @brief      Ğ´ÈëÒ»¸ö×Ö½ÚÊı¾İµ½I2CÉè±¸Ö¸¶¨¼Ä´æÆ÷µØÖ·
+ 199          //  @param      iic_n       IICÄ£¿é(IIC_1,IIC_2,IIC_3,IIC_0)
+ 200          //  @param      slaveid     ´Ó»úµØÖ·(7Î»µØÖ·)
+ 201          //  @param      reg         ´Ó»ú¼Ä´æÆ÷µØÖ·
+ 202          //  @param      dat         ĞèÒª·¢ËÍµÄÊı¾İ
+ 203          //  @return                 ·µ»ØµÄ×´Ì¬Öµ 0£º³É¹¦  1£ºÊ§°Ü
+ 204          //  @since      v2.0
+ 205          //  Sample usage:         iic_write_reg(0x2D, 0x50,2);     //Ğ´ÈëÊı¾İ2µ½0x50µØÖ·£¬´Ó»úµØÖ·Îª0x2D
+ 206          //--------------------------------------------------------------------------------------------------------
+             ------------
+ 207          uint8 iic_write_reg(uint8 dev_add, uint8 reg, uint8 dat)
+ 208          {
+ 209              if(start() != IIC_SEND_OK)
+ 210                  return IIC_SEND_FAIL;
+ 211              if(send_data((dev_add<<1) | 0x00) != IIC_SEND_OK)
+ 212                  return IIC_SEND_FAIL;
+ 213              if(recv_ack() != IIC_SEND_OK)
+C51 COMPILER V9.57.0.0   ZF_IIC                                                            01/17/2023 13:14:24 PAGE 5   
+
+ 214                  return IIC_SEND_FAIL;
+ 215              if(send_data(reg) != IIC_SEND_OK)
+ 216                  return IIC_SEND_FAIL;
+ 217              if(recv_ack() != IIC_SEND_OK)
+ 218                  return IIC_SEND_FAIL;
+ 219              if(send_data(dat) != IIC_SEND_OK)
+ 220                  return IIC_SEND_FAIL;
+ 221              if(recv_ack() != IIC_SEND_OK)
+ 222                  return IIC_SEND_FAIL;
+ 223              if(stop() != IIC_SEND_OK)
+ 224                  return IIC_SEND_FAIL;
+ 225          
+ 226          
+ 227              return IIC_SEND_OK;
+ 228          }
+ 229          
+ 230          //--------------------------------------------------------------------------------------------------------
+             ------------
+ 231          //  @brief      ¶ÁÈ¡I2CÉè±¸Ö¸¶¨µØÖ·¼Ä´æÆ÷µÄÊı¾İ
+ 232          //  @param      iic_n        I2CÍ¨µÀºÅ¼°Òı½Å
+ 233          //  @param      dev_add     ´Ó»úµØÖ·(7Î»µØÖ·)
+ 234          //  @param      reg         ´Ó»ú¼Ä´æÆ÷µØÖ·
+ 235          //  @param      dat         Êı¾İµØÖ·
+ 236          //  @return                 ¶ÁÈ¡µÄ¼Ä´æÆ÷Öµ
+ 237          //  @since      v1.0
+ 238          //  Sample usage:         uint8 value = iic_read_reg(i2c0, 0x2D, 0x50);//¶ÁÈ¡0x50µØÖ·µÄÊı¾İ£¬´Ó»úµØÖ·Îª0x2D
+ 239          //--------------------------------------------------------------------------------------------------------
+             ------------
+ 240          uint8 iic_read_reg(uint8 dev_add, uint8 reg, uint8 *dat)
+ 241          {
+ 242            if(start() != IIC_SEND_OK)
+ 243                  return IIC_SEND_FAIL;
+ 244            
+ 245              if(send_data((dev_add<<1) | 0x00) != IIC_SEND_OK)
+ 246                  return IIC_SEND_FAIL;
+ 247              if(recv_ack() != IIC_SEND_OK)
+ 248                  return IIC_SEND_FAIL;
+ 249            
+ 250              if(send_data(reg) != IIC_SEND_OK)
+ 251                  return IIC_SEND_FAIL;
+ 252              if(recv_ack() != IIC_SEND_OK)
+ 253                  return IIC_SEND_FAIL;
+ 254            
+ 255            
+ 256          //   if(start() != IIC_SEND_OK)
+ 257          //        return IIC_SEND_FAIL;
+ 258             
+ 259              if(send_data((dev_add<<1) | 0x01) != IIC_SEND_OK)
+ 260                  return IIC_SEND_FAIL;
+ 261            
+ 262              if(recv_ack() != IIC_SEND_OK)
+ 263                  return IIC_SEND_FAIL;
+ 264            
+ 265          
+ 266              *dat = recv_data(); //¶ÁÈ¡Êı¾İ
+ 267          
+ 268            
+ 269              if(send_ack() != IIC_SEND_OK)
+ 270                  return IIC_SEND_FAIL;
+ 271            
+ 272              if(stop() != IIC_SEND_OK)
+ 273                  return IIC_SEND_FAIL;
+C51 COMPILER V9.57.0.0   ZF_IIC                                                            01/17/2023 13:14:24 PAGE 6   
+
+ 274            
+ 275              return IIC_SEND_OK;
+ 276          }
+ 277          
+ 278          //--------------------------------------------------------------------------------------------------------
+             ------------
+ 279          //  @brief      ¶ÁÈ¡I2CÉè±¸Ö¸¶¨µØÖ·¼Ä´æÆ÷µÄÊı¾İ
+ 280          //  @param      iic_n       I2CÍ¨µÀºÅ¼°Òı½Å
+ 281          //  @param      dev_add     ´Ó»úµØÖ·(7Î»µØÖ·)
+ 282          //  @param      reg         ´Ó»ú¼Ä´æÆ÷µØÖ·
+ 283          //  @param      dat         ¶ÁÈ¡µÄÊı¾İ´æ´¢µÄµØÖ·
+ 284          //  @param      num         ¶ÁÈ¡×Ö½ÚÊı
+ 285          //  @return     void
+ 286          //  @since      v1.0
+ 287          //  Sample usage:         uint8 value = i2c_read_reg(i2c0, 0x2D, 0x50, 10, buf);//¶ÁÈ¡0x50µØÖ·µÄÊı¾İ£¬´Ó»úµ
+             -ØÖ·Îª0x2D¿ªÊ¼µÄ10¸ö×Ö½Ú
+ 288          //--------------------------------------------------------------------------------------------------------
+             ------------
+ 289          uint8 iic_read_reg_bytes(uint8 dev_add, uint8 reg
+ 290                      , uint8 *dat, uint8 num)
+ 291          {
+ 292          
+ 293            if(start() != IIC_SEND_OK)
+ 294                  return IIC_SEND_FAIL;
+ 295            
+ 296              if(send_data((dev_add<<1) | 0x00) != IIC_SEND_OK)
+ 297                  return IIC_SEND_FAIL;
+ 298              if(recv_ack() != IIC_SEND_OK)
+ 299                  return IIC_SEND_FAIL;
+ 300            
+ 301              if(send_data(reg) != IIC_SEND_OK)
+ 302                  return IIC_SEND_FAIL;
+ 303              if(recv_ack() != IIC_SEND_OK)
+ 304                  return IIC_SEND_FAIL;
+ 305          
+ 306            if(send_data((dev_add<<1) | 0x01) != IIC_SEND_OK)
+ 307              return IIC_SEND_FAIL;
+ 308            if(recv_ack() != IIC_SEND_OK)
+ 309              return IIC_SEND_FAIL;
+ 310          
+ 311              while(--num)
+ 312              {
+ 313                  *dat = recv_data(); //¶ÁÈ¡Êı¾İ
+ 314              if(send_ack() != IIC_SEND_OK)
+ 315              {
+ 316                return IIC_SEND_FAIL;
+ 317              }
+ 318                  dat++;
+ 319              }
+ 320            
+ 321            *dat = recv_data();
+ 322            
+ 323            if(send_ack() != IIC_SEND_OK)
+ 324              return IIC_SEND_FAIL;
+ 325            
+ 326            if(stop() != IIC_SEND_OK)
+ 327              return IIC_SEND_FAIL;
+ 328            
+ 329            return IIC_SEND_OK;
+ 330          }
+ 331          
+ 332          
+C51 COMPILER V9.57.0.0   ZF_IIC                                                            01/17/2023 13:14:24 PAGE 7   
+
+ 333          //--------------------------------------------------------------------------------------------------------
+             ------------
+ 334          //  @brief      Ó²¼şIICÒı½ÅÇĞ»»º¯Êı
+ 335          //  @param      iic_n         I2CÍ¨µÀºÅ¼°Òı½Å
+ 336          //  @param      scl_pin         Ñ¡ÔñSCLÒı½Å
+ 337          //  @param      sda_pin         Ñ¡ÔñSDAÒı½Å
+ 338          //  Sample usage:       
+ 339          //--------------------------------------------------------------------------------------------------------
+             ------------
+ 340          void iic_change_pin(IICN_enum iic_n,IIC_PIN_enum scl_pin,IIC_PIN_enum sda_pin)
+ 341          {
+ 342            scl_pin = scl_pin;
+ 343            sda_pin = sda_pin;
+ 344              P_SW2 |= 1<<7;  //½«EAXFR¼Ä´æÆ÷ÖÃ1£¬ÕâÑù²ÅÄÜÊ¹ÓÃÌØÊâ¹¦ÄÜ¼Ä´æÆ÷ÎªÀ©Õ¹SFR£¬·ÃÎÊÂß¼­µØÖ·Î»ÓÚ XDATA ÇøÓò
+ 345            
+ 346            P_SW2 &= ~(0x03<<4);  //Çå³ıÒı½ÅÇĞ»»Î»
+ 347              switch(iic_n) 
+ 348              {
+ 349              case IIC_1:
+ 350                  P_SW2 |= (0x00<<4); //SCL:P1.5  SDA:P1.4
+ 351                  break;
+ 352              case IIC_2:
+ 353                  P_SW2 |= (0x01<<4); //SCL:P2.5  SDA:P2.4
+ 354                  break;
+ 355              case IIC_3:
+ 356                  P_SW2 |= (0x02<<4); //Ã»ÓĞ¸Ã×éÒı½Å
+ 357                  break;
+ 358              case IIC_4:
+ 359                  P_SW2 |= (0x03<<4); //SCL:P3.2  SDA:P3.3
+ 360                  break;
+ 361              }
+ 362            
+ 363            P_SW2 &= ~(1<<7);
+ 364          
+ 365          }
+
+C51 COMPILATION COMPLETE.  1 WARNING(S),  2 ERROR(S)
