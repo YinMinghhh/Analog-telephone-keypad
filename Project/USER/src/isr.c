@@ -5,7 +5,7 @@
  * @date    2023-01-17
 */
 
-#include "UART.h"
+#include "modules.h"
 
 // sbit LED1 = P2^0;
 
@@ -13,6 +13,7 @@
 void TM0_Isr() interrupt 1 {
 	static uint16 cnt_10ms = 0;
 	cnt_10ms += 10;
+	KeyBoard_4x4_scan(&key_board);
 	if(cnt_10ms == 1000){
 		cnt_10ms = 0;
 		// LED1 = !LED1; 

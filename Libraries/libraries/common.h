@@ -2,6 +2,10 @@
 #define __COMMON_H_
 
 #include "STC89C5X.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <intrins.h>
 
 typedef unsigned char   uint8  ;	//  8 bits 
 typedef unsigned int  	uint16 ;	// 16 bits 
