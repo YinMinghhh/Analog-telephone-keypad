@@ -11,14 +11,14 @@
  *          初始化
  * @date    2023-01-18
 */
-void KeyBoard_4x4_init(KeyBoard_4x4 *const THIS) {
+uint8 KeyBoard_4x4_init(KeyBoard_4x4 *const THIS) {
     THIS->_count = 0x01;
     THIS->_flag  = 1;
     THIS->button_na = DEFAULT;
     THIS->enable = 1;
 
     printf("KeyBoard_4x4_init_%d\r\n", THIS->_count);
-    return ;
+    return 0;
 }
 
 /***

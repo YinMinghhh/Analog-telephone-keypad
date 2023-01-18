@@ -57,7 +57,7 @@ typedef struct {
     uint8   enable;     // 初始化时置为1
 } KeyBoard_4x4;
 
-void    KeyBoard_4x4_init(KeyBoard_4x4 *const THIS);
+uint8   KeyBoard_4x4_init(KeyBoard_4x4 *const THIS);
 uint8  _KeyBoard_4x4_read(KeyBoard_4x4 *const THIS);
 ButtonName  KeyBoard_4x4_scan(KeyBoard_4x4 *const THIS);
 
