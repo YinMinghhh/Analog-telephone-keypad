@@ -478,6 +478,21 @@
             </File>
           </Files>
         </Group>
+        <Group>
+          <GroupName>APP_DynamicDigitalTube</GroupName>
+          <Files>
+            <File>
+              <FileName>DyDigiTube.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\CODE\DyDigiTube.c</FilePath>
+            </File>
+            <File>
+              <FileName>DyDigiTube.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\CODE\DyDigiTube.h</FilePath>
+            </File>
+          </Files>
+        </Group>
       </Groups>
     </Target>
   </Targets>
