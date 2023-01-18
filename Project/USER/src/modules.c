@@ -2,6 +2,7 @@
 
 
 KeyBoard_4x4 key_board;
+DyDigiTube_4x2 dy_digital_tube;
 
 /***
  * @brief   外设初始化
@@ -12,4 +13,5 @@ void modules_init(){
     UartInit();                 // 串口通讯初始化
     printf("SYSclk:12M\r\nTIM0_PIT:10ms\r\nUART_BAUD:2400\r\n");    // 打印基本信息
     KeyBoard_4x4_init(&key_board);
+    DyDigiTube_4x2_init(&dy_digital_tube);
 }

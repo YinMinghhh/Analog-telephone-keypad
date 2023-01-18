@@ -11,14 +11,9 @@
 
 
 void TM0_Isr() interrupt 1 {
-	static uint16 cnt_10ms = 0;
-	cnt_10ms += 10;
-	KeyBoard_4x4_scan(&key_board);
-	if(cnt_10ms == 1000){
-		cnt_10ms = 0;
-		// LED1 = !LED1; 
-		// SendByte('F');
-	}
+	// KeyBoard_4x4_scan(&key_board);
+	// DyDigiTube_4x2_push(&dy_digital_tube, KeyBoard_4x4_scan(&key_board));
+	DyDigiTube_4x2_service(&dy_digital_tube, &key_board);
 }
 
 /***

@@ -48,7 +48,7 @@ uint8 _KeyBoard_4x4_read(KeyBoard_4x4 *const THIS) {
 ButtonName KeyBoard_4x4_scan(KeyBoard_4x4 *const THIS) {
     if((_KeyBoard_4x4_read(THIS)) && THIS->_flag) {   // 有按键被按下 且 允许处理. 
     // 不要更换 && 左右内容的顺序, 以保证即使_flag为0时read函数仍会被执行. 
-        if(++THIS->_count > 1) {    // 计数消抖
+        if(++THIS->_count > 10) {    // 计数消抖
             switch(THIS->_key_save_read_data) { 
                 // 按键处理, 从_key_save_read_data映射到实际
                 case 0x11:  THIS->button_na = one;  break;
@@ -80,6 +80,7 @@ ButtonName KeyBoard_4x4_scan(KeyBoard_4x4 *const THIS) {
     if (!THIS->_key_save_read_data) {   // 没有按键被按下
         THIS->_flag  = 1;       // 允许下次进入按键处理
         THIS->_count = 0;       // 计数清零
+        THIS->button_na = DEFAULT;
     }
     return  THIS->button_na;
 }
