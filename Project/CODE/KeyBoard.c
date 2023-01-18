@@ -11,7 +11,7 @@
  *          初始化
  * @date    2023-01-18
 */
-void KeyBoard_4x4_init(KeyBoard_4x4 *const THIS){
+void KeyBoard_4x4_init(KeyBoard_4x4 *const THIS) {
     THIS->_count = 0x01;
     THIS->_flag  = 1;
     THIS->button_na = DEFAULT;
@@ -26,15 +26,15 @@ void KeyBoard_4x4_init(KeyBoard_4x4 *const THIS){
  *          内部调用
  * @date    2013-01-18
 */
-uint8 _KeyBoard_4x4_read(KeyBoard_4x4 *const THIS){
+uint8 _KeyBoard_4x4_read(KeyBoard_4x4 *const THIS) {
     THIS->_key_save_read_data  = 0x00; // 清除数据, 0表示没有按键被按下
-    key_4x4_pin = 0xF0;             // 检测高四位, 列
+    key_4x4_pin = 0xF0;             // 检测高四位, 找出列号
     _nop_();_nop_();_nop_();_nop_();
     THIS->_key_save_read_data  = key_4x4_pin ^ 0xF0;    // 保留高四位数据, 如果有被按下的置1
 
-    key_4x4_pin = 0x0F;             // 检测低四位, 行
+    key_4x4_pin = 0x0F;             // 检测低四位, 找出行号
     _nop_();_nop_();_nop_();_nop_();
-    THIS->_key_save_read_data += key_4x4_pin ^ 0x0F;    // 加上低四位数据, 给出被按下键的位置
+    THIS->_key_save_read_data += key_4x4_pin ^ 0x0F;    // 加上低四位数据, 给出被按下键的坐标
     return THIS->_key_save_read_data;
 }
 
@@ -45,11 +45,12 @@ uint8 _KeyBoard_4x4_read(KeyBoard_4x4 *const THIS){
  *          或者给出没有按键被按下的说明
  * @date    2023-01-18
 */
-ButtonName  KeyBoard_4x4_scan(KeyBoard_4x4 *const THIS){
+ButtonName KeyBoard_4x4_scan(KeyBoard_4x4 *const THIS) {
     if((_KeyBoard_4x4_read(THIS)) && THIS->_flag) {   // 有按键被按下 且 允许处理. 
-    // 不要更换顺序, 以保证即使_flag为0时read函数仍会被执行. 
+    // 不要更换 && 左右内容的顺序, 以保证即使_flag为0时read函数仍会被执行. 
         if(++THIS->_count > 1) {    // 计数消抖
-            switch(THIS->_key_save_read_data) {     // 按键处理
+            switch(THIS->_key_save_read_data) { 
+                // 按键处理, 从_key_save_read_data映射到实际
                 case 0x11:  THIS->button_na = one;  break;
                 case 0x21:  THIS->button_na = two;  break;
                 case 0x41:  THIS->button_na = three;    break;
@@ -72,12 +73,12 @@ ButtonName  KeyBoard_4x4_scan(KeyBoard_4x4 *const THIS){
 
                 default:    THIS->button_na = DEFAULT;  break;
             }
-            THIS->_flag  = 0;   // 禁止再次进入处理
+            THIS->_flag  = 0;   // 禁止再次进入按键处理
             THIS->_count = 0;   // 计数清零
         }
     }
     if (!THIS->_key_save_read_data) {   // 没有按键被按下
-        THIS->_flag  = 1;       // 允许进入按键处理
+        THIS->_flag  = 1;       // 允许下次进入按键处理
         THIS->_count = 0;       // 计数清零
     }
     return  THIS->button_na;
