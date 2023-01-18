@@ -441,6 +441,11 @@
               <FileType>1</FileType>
               <FilePath>..\USER\src\main.c</FilePath>
             </File>
+            <File>
+              <FileName>modules.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\USER\src\modules.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -450,6 +455,26 @@
               <FileName>isr.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\USER\inc\isr.h</FilePath>
+            </File>
+            <File>
+              <FileName>modules.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\USER\inc\modules.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>APP_KeyBoard</GroupName>
+          <Files>
+            <File>
+              <FileName>KeyBoard.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\CODE\KeyBoard.c</FilePath>
+            </File>
+            <File>
+              <FileName>KeyBoard.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\CODE\KeyBoard.h</FilePath>
             </File>
           </Files>
         </Group>

@@ -1,0 +1,1 @@
+"..\CODE\KeyBoard.c" OPTIMIZE (8,SPEED) BROWSE INCDIR(..\..\Libraries\libraries;..\USER\inc;..\CODE;..\..\Libraries\zxy_libraries) DEBUG OBJECTEXTEND PRINT(.\Listings\KeyBoard.lst) TABS (2) OBJECT(.\Objects\KeyBoard.obj)

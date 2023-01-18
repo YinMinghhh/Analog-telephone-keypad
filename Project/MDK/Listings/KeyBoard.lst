@@ -1,0 +1,144 @@
+C51 COMPILER V9.57.0.0   KEYBOARD                                                          01/18/2023 17:10:11 PAGE 1   
+
+
+C51 COMPILER V9.57.0.0, COMPILATION OF MODULE KEYBOARD
+OBJECT MODULE PLACED IN .\Objects\KeyBoard.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ..\CODE\KeyBoard.c OPTIMIZE(8,SPEED) BROWSE INCDIR(..\..\Libraries\libra
+                    -ries;..\USER\inc;..\CODE;..\..\Libraries\zxy_libraries) DEBUG OBJECTEXTEND PRINT(.\Listings\KeyBoard.lst) TABS(2) OBJECT
+                    -(.\Objects\KeyBoard.obj)
+
+line level    source
+
+   1          /***
+   2           * @file    KeBoard.c
+   3           * @author  zxy
+   4           * @date    2023-01-17
+   5          */
+   6          
+   7          #include "KeyBoard.h"
+   8          
+   9          sbit LED1 = P2^0;
+  10          
+  11          /***
+  12           * @brief   |KeyBoard_4x4对象|
+  13           *          初始化
+  14           * @date    2023-01-18
+  15          */
+  16          void KeyBoard_4x4_init(KeyBoard_4x4 *const THIS){
+  17   1          THIS->_count = 0x01;
+  18   1          THIS->_flag  = 1;
+  19   1          THIS->button_na = DEFAULT;
+  20   1          THIS->enable = 1;
+  21   1      
+  22   1          printf("KeyBoard_4x4_init_%d\r\n", THIS->_count);
+  23   1          return ;
+  24   1      }
+  25          
+  26          /***
+  27           * @brief   |KeyBoard_4x4对象|
+  28           *          内部调用
+  29           * @date    2013-01-18
+  30          */
+  31          uint8 _KeyBoard_4x4_read(KeyBoard_4x4 *const THIS){
+  32   1          THIS->_key_save_read_data  = 0x00; // 清除数据, 0表示没有按键被按下
+  33   1          key_4x4_pin = 0xF0;             // 检测高四位, 列
+  34   1          _nop_();_nop_();_nop_();_nop_();
+  35   1          THIS->_key_save_read_data  = key_4x4_pin ^ 0xF0;    // 保留高四位数据, 如果有被按下的置
+             -1
+  36   1      
+  37   1          key_4x4_pin = 0x0F;             // 检测低四位, 行
+  38   1          _nop_();_nop_();_nop_();_nop_();
+  39   1          THIS->_key_save_read_data += key_4x4_pin ^ 0x0F;    // 加上低四位数据, 给出被按下键的位
+             -置
+  40   1          return THIS->_key_save_read_data;
+  41   1      }
+  42          
+  43          /***
+  44           * @brief   |KeyBoard_4x4对象|
+  45           *          扫描键盘
+  46           *          并给出被按下的按键状态, 
+  47           *          或者给出没有按键被按下的说明
+  48           * @date    2023-01-18
+  49          */
+  50          ButtonName  KeyBoard_4x4_scan(KeyBoard_4x4 *const THIS){
+  51   1          if((_KeyBoard_4x4_read(THIS)) && THIS->_flag) {   // 有按键被按下 且 允许处理. 
+C51 COMPILER V9.57.0.0   KEYBOARD                                                          01/18/2023 17:10:11 PAGE 2   
+
+  52   2          // 不要更换顺序, 以保证即使_flag为0时read函数仍会被执行. 
+  53   2              // THIS->_count += 1;
+  54   2              // printf("KEY!_%d \r\n", THIS->_count);
+  55   2              if(++THIS->_count > 1) {    // 计数消抖
+  56   3                  // printf("RIGHT_KEY!_%d\r\n", THIS->_count);
+  57   3                  switch(THIS->_key_save_read_data) {     // 按键处理
+  58   4                      case 0x11:  
+  59   4                          THIS->button_na = one;putchar('1');break;
+  60   4                      case 0x21:  
+  61   4                          THIS->button_na = two;putchar('2');break;
+  62   4                      case 0x41:  
+  63   4                          THIS->button_na = three;putchar('3');break;
+  64   4                      case 0x81:  
+  65   4                          THIS->button_na = Dail;putchar('D');break;
+  66   4      
+  67   4      
+  68   4                      case 0x12:  
+  69   4                          THIS->button_na = four;putchar('4');break;
+  70   4                      case 0x22:  
+  71   4                          THIS->button_na = five;putchar('5');break;
+  72   4                      case 0x42:  
+  73   4                          THIS->button_na = six;putchar('6');break;
+  74   4                      case 0x82:  
+  75   4                          THIS->button_na = Hang;putchar('H');break;
+  76   4      
+  77   4                      case 0x14:  
+  78   4                          THIS->button_na = seven;putchar('7');break;
+  79   4                      case 0x24:  
+  80   4                          THIS->button_na = eight;putchar('8');break;
+  81   4                      case 0x44:  
+  82   4                          THIS->button_na = nine;putchar('9');break;
+  83   4                      case 0x84:  
+  84   4                          THIS->button_na = Backspace;putchar('B');break;
+  85   4      
+  86   4                      case 0x18:  
+  87   4                          THIS->button_na = asterisk;putchar('*');break;
+  88   4                      case 0x28:  
+  89   4                          THIS->button_na = zero;putchar('0');break;
+  90   4                      case 0x48:  
+  91   4                          THIS->button_na = pound;putchar('#');break;
+  92   4                      case 0x88:  
+  93   4                          THIS->button_na = Redial;putchar('R');break;
+  94   4      
+  95   4      
+  96   4                      default:    THIS->button_na = DEFAULT;  break;
+  97   4                  }
+  98   3                  printf("\r\n");
+  99   3                  // SBUF = (uint8)(THIS->button_na) + '0';
+ 100   3                  LED1 = !LED1;
+ 101   3                  THIS->_flag  = 0;   // 禁止再次进入处理
+ 102   3                  THIS->_count = 0;   // 计数清零
+ 103   3                  // printf("RIGHT_KEY!_%d\r\n", THIS->button_na);
+ 104   3              }
+ 105   2          }
+ 106   1          if (!THIS->_key_save_read_data) {   // 没有按键被按下
+ 107   2              THIS->_flag  = 1;       // 允许进入按键处理
+ 108   2              THIS->_count = 0;       // 计数清零
+ 109   2              // printf("No_KEY._%d\r\n", THIS->_count);
+ 110   2              // THIS->button_na
+ 111   2          }
+ 112   1          return  THIS->button_na;
+ 113   1      }
+C51 COMPILER V9.57.0.0   KEYBOARD                                                          01/18/2023 17:10:11 PAGE 3   
+
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    580    ----
+   CONSTANT SIZE    =     26    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       6
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
