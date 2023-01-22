@@ -13,9 +13,9 @@
 
 
 void TM0_Isr() interrupt 1 {
-	if((SYStim += 5) < 4294967000) {	// 4294967295
+	if((SYStim += 5) < 4294967000) {	// Լ238Сʱ
 		FeedDog;
-	}
+	}// 4294967295
 	FSM_service(&dy_digital_tube, &key_board);
 }
 

@@ -1,0 +1,1 @@
+"..\..\Libraries\zxy_libraries\UART.c" OPTIMIZE (8,SPEED) BROWSE INCDIR(..\..\Libraries\libraries;..\USER\inc;..\CODE;..\..\Libraries\zxy_libraries) DEBUG OBJECTEXTEND PRINT(.\Listings\UART.lst) TABS (2) OBJECT(.\Objects\UART.obj)

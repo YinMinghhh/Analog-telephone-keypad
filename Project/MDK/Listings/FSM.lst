@@ -1,4 +1,4 @@
-C51 COMPILER V9.57.0.0   FSM                                                               01/22/2023 14:47:13 PAGE 1   
+C51 COMPILER V9.57.0.0   FSM                                                               01/22/2023 21:07:16 PAGE 1   
 
 
 C51 COMPILER V9.57.0.0, COMPILATION OF MODULE FSM
@@ -13,43 +13,45 @@ line level    source
    2          
    3          Timer CoolDown;
    4          
-   5          void FSM_init(uint32 time){
-   6   1          Timer_init(&CoolDown, time);
-   7   1      }
-   8          
-   9          void FSM_service(DyDigiTube_4x2 *const THIS, KeyBoard_4x4 *const KeyBoard){
-  10   1          KeyBoard_4x4_scan(KeyBoard);
-  11   1          _nop_();_nop_();_nop_();_nop_();
+   5          uint8 FSM_init(uint32 time){
+   6   1          if(!Timer_init(&CoolDown, time))
+   7   1          return 0;
+   8   1      }
+   9          
+  10          void FSM_service(DyDigiTube_4x2 *const THIS, KeyBoard_4x4 *const KeyBoard){
+  11   1          KeyBoard_4x4_scan(KeyBoard);
   12   1          _nop_();_nop_();_nop_();_nop_();
-  13   1          
-  14   1          if (Timer_judge(&CoolDown)) {
-  15   2              switch (KeyBoard->button_na) {
-  16   3                  case zero:  DyDigiTube_4x2_push(THIS, DDT_zero);    break;
-  17   3                  case one:   DyDigiTube_4x2_push(THIS, DDT_one);     break;
-  18   3                  case two:   DyDigiTube_4x2_push(THIS, DDT_two);     break;
-  19   3                  case three: DyDigiTube_4x2_push(THIS, DDT_three);   break;
-  20   3                  case four:  DyDigiTube_4x2_push(THIS, DDT_four);    break;
-  21   3                  case five:  DyDigiTube_4x2_push(THIS, DDT_five);    break;
-  22   3                  case six:   DyDigiTube_4x2_push(THIS, DDT_six);     break;
-  23   3                  case seven: DyDigiTube_4x2_push(THIS, DDT_seven);   break;
-  24   3                  case eight: DyDigiTube_4x2_push(THIS, DDT_eight);   break;
-  25   3                  case nine:  DyDigiTube_4x2_push(THIS, DDT_nine);    break;
-  26   3      
-  27   3                  case Backspace: DyDigiTube_4x2_popb(THIS);          break;
-  28   3      
-  29   3                  case Dail:  DyDigiTube_4x2_Dail(THIS);              break;
-  30   3                  case Hang:  DyDigiTube_4x2_Hang(THIS);              break;
-  31   3                  default:
-  32   3                      break;
-  33   3              }
-  34   2          }
-  35   1          
+  13   1          _nop_();_nop_();_nop_();_nop_();
+  14   1          
+  15   1          if (Timer_judge(&CoolDown)) {
+  16   2              switch (KeyBoard->button_na) {
+  17   3                  case zero:  DyDigiTube_4x2_push(THIS, DDT_zero);    break;
+  18   3                  case one:   DyDigiTube_4x2_push(THIS, DDT_one);     break;
+  19   3                  case two:   DyDigiTube_4x2_push(THIS, DDT_two);     break;
+  20   3                  case three: DyDigiTube_4x2_push(THIS, DDT_three);   break;
+  21   3                  case four:  DyDigiTube_4x2_push(THIS, DDT_four);    break;
+  22   3                  case five:  DyDigiTube_4x2_push(THIS, DDT_five);    break;
+  23   3                  case six:   DyDigiTube_4x2_push(THIS, DDT_six);     break;
+  24   3                  case seven: DyDigiTube_4x2_push(THIS, DDT_seven);   break;
+  25   3                  case eight: DyDigiTube_4x2_push(THIS, DDT_eight);   break;
+  26   3                  case nine:  DyDigiTube_4x2_push(THIS, DDT_nine);    break;
+  27   3      
+  28   3                  case Backspace: DyDigiTube_4x2_popb(THIS);          break;
+  29   3      
+  30   3                  case Dail:  DyDigiTube_4x2_Dail(THIS);              break;
+  31   3                  case Hang:  DyDigiTube_4x2_Hang(THIS);              break;
+  32   3                  default:
+  33   3                      break;
+  34   3              }
+  35   2          }
   36   1          
-  37   1      }
+  37   1          
+  38   1      }
+*** WARNING C291 IN LINE 8 OF ..\CODE\FSM.c: not every exit path returns a value
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    248    ----
+   CODE SIZE        =    253    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
@@ -59,4 +61,4 @@ MODULE INFORMATION:   STATIC OVERLAYABLE
 END OF MODULE INFORMATION.
 
 
-C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
+C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)

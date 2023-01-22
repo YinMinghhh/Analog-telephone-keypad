@@ -1,4 +1,4 @@
-C51 COMPILER V9.57.0.0   MODULES                                                           01/22/2023 14:47:13 PAGE 1   
+C51 COMPILER V9.57.0.0   MODULES                                                           01/22/2023 21:07:16 PAGE 1   
 
 
 C51 COMPILER V9.57.0.0, COMPILATION OF MODULE MODULES
@@ -22,7 +22,7 @@ line level    source
   11           * @brief   外设初始化
   12           * @date    2023-01-17
   13          */
-  14          void modules_init(){
+  14          void modules_init() {
   15   1          pit_timer_ms(TIM_0, 10);    // 定时器0中断初始化
   16   1          UartInit();                 // 串口通讯初始化
   17   1          printf("SYSclk:12M\r\nTIM0_PIT:10ms\r\nUART_BAUD:2400\r\n");    // 打印基本信息
