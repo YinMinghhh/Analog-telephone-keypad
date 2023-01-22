@@ -15,6 +15,7 @@ uint8 DyDigiTube_4x2_init(DyDigiTube_4x2 *const THIS){
     uint8 i = 0x00;
     THIS->enable = 1;
     THIS->_full  = 0;
+    THIS->_emtp  = 1;
     // memset(THIS->display, sizeof(Display)*8, DDT_minus);
     for (i = 0; i < 8; i++){
         THIS->display[i] = DDT_minus;
@@ -35,6 +36,9 @@ void Delay1ms()		//@12.000MHz
 	} while (--i);
 }
 
+/***
+ * @date    2023-01-18
+*/
 void DyDigiTube_4x2_PutNum(DyDigiTube_4x2 *const THIS) {
     uint8 i = 0x00;
     for(i = 0x00; i < 0x08; i++){
@@ -49,7 +53,8 @@ void DyDigiTube_4x2_PutNum(DyDigiTube_4x2 *const THIS) {
 }
 
 void DyDigiTube_4x2_push(DyDigiTube_4x2 *const THIS, Display num){
-    vuint8 i = 0x00;
+    uint8 i = 0x00;
+    THIS->_emtp = 0;
     if(THIS->_full) return ;
     for(; i < 0x08; i++){
         if(THIS->display[i] == DDT_minus){
@@ -57,10 +62,55 @@ void DyDigiTube_4x2_push(DyDigiTube_4x2 *const THIS, Display num){
             break;
         }
     }
-    if (i == 0x08){
+    if (i >= 0x07){
         THIS->_full = 1;
     }
     return ;
 }
 
+/***
+ * @date    2023-01-22
+*/
+void DyDigiTube_4x2_popb(DyDigiTube_4x2 *const THIS) {
+    uint8 i = 0x08;
+    THIS->_full = 0;
+    if(THIS->_emtp) return ;
+    for(; i > 0x00; i--){
+        if(THIS->display[i-1] != DDT_minus) {
+            THIS->display[i-1] = DDT_minus;
+            break;
+        }
+    }
+    if(i == 0x00) {
+        THIS->_emtp = 1;
+    }
+    return ;
+}
 
+void DyDigiTube_4x2_Dail(DyDigiTube_4x2 *const THIS) {
+    uint8 i = 0x00;
+    if(!THIS->_full) {
+        printf("Not Correct.\r\n");
+        return ;
+    }
+    for(; i < 0x08; i++){
+        switch (THIS->display[i])
+        {
+        case DDT_zero:  putchar('0'); break;
+        case DDT_one:   putchar('1'); break;
+        case DDT_two:   putchar('2'); break;
+        case DDT_three: putchar('3'); break;
+        case DDT_four:  putchar('4'); break;
+        case DDT_five:  putchar('5'); break;
+        case DDT_six:   putchar('6'); break;
+        case DDT_seven: putchar('7'); break;
+        case DDT_eight: putchar('8'); break;
+        case DDT_nine:  putchar('9'); break;
+        
+        default:
+            break;
+        }
+    }
+    printf("\r\n");
+    return ;
+}

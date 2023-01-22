@@ -34,12 +34,15 @@ typedef struct {
     Display display[8];
     // cvector display = cvector_create(sizeof(Display));
     uint8   _full;
+    uint8   _emtp;
     uint8   enable;
 } DyDigiTube_4x2;
 
-uint8 DyDigiTube_4x2_init(DyDigiTube_4x2 *const THIS);
-void DyDigiTube_4x2_PutNum(DyDigiTube_4x2 *const THIS);
-void DyDigiTube_4x2_push(DyDigiTube_4x2 *const THIS, uint8 num);
+uint8   DyDigiTube_4x2_init(DyDigiTube_4x2 *const THIS);
+void    DyDigiTube_4x2_PutNum(DyDigiTube_4x2 *const THIS);
+void    DyDigiTube_4x2_push(DyDigiTube_4x2 *const THIS, uint8 num);
+void    DyDigiTube_4x2_popb(DyDigiTube_4x2 *const THIS);
+void    DyDigiTube_4x2_Dail(DyDigiTube_4x2 *const THIS);
 
 
 #endif // !_DYNAMIC_DIGITAL_TUBE_H_

@@ -25,6 +25,10 @@ void FSM_service(DyDigiTube_4x2 *const THIS, KeyBoard_4x4 *const KeyBoard){
         case seven: DyDigiTube_4x2_push(THIS, DDT_seven);   break;
         case eight: DyDigiTube_4x2_push(THIS, DDT_eight);   break;
         case nine:  DyDigiTube_4x2_push(THIS, DDT_nine);    break;
+
+        case Backspace: DyDigiTube_4x2_popb(THIS);          break;
+
+        case Dail:  DyDigiTube_4x2_Dail(THIS);              break;
         default:
             break;
         }
