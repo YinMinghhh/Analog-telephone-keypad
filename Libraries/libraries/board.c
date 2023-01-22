@@ -36,3 +36,10 @@ void DisableGlobalIRQ(void){
 void EnableGlobalIRQ(void){
 	EA = 1;
 }
+
+/***
+ * @brief	使能看门狗
+*/
+void EnableWDT(void) {
+	WDT_CONTR = 0x34;
+}

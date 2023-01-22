@@ -24,6 +24,7 @@ void main(){
     sys_clk = 12000000;
     board_init();           // 基本寄存器初始化并关闭总中断
     modules_init();         // 外设初始化
+    EnableWDT();            // 使能看门狗
     EnableGlobalIRQ();      // 打开总中断
 
     // DyDigiTube_4x2_push(&dy_digital_tube, 1);

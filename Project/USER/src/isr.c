@@ -5,6 +5,7 @@
  * @date    2023-01-17
 */
 
+#include "board.h"
 #include "modules.h"
 #include "FSM.h"
 
@@ -12,13 +13,10 @@
 
 
 void TM0_Isr() interrupt 1 {
-	SYStim += 5;
-	// KeyBoard_4x4_scan(&key_board);
-	// DyDigiTube_4x2_push(&dy_digital_tube, KeyBoard_4x4_scan(&key_board));
+	if((SYStim += 5) < 4294967000) {	// 4294967295
+		FeedDog;
+	}
 	FSM_service(&dy_digital_tube, &key_board);
-	// if(key_board.button_na != NONE)
-	// 	printf("%d\r\n", key_board.button_na);
-	// printf("%lu\r\n", key_board._same->last_time);
 }
 
 /***
