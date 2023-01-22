@@ -7,6 +7,8 @@
 ".\Objects\main.obj",
 ".\Objects\modules.obj",
 ".\Objects\KeyBoard.obj",
-".\Objects\DyDigiTube.obj" 
+".\Objects\DyDigiTube.obj",
+".\Objects\Timer.obj",
+".\Objects\FSM.obj" 
 TO ".\Objects\ATK-Hohai-zxy" 
 PRINT(".\Listings\ATK-Hohai-zxy.m51") RAMSIZE(256) 

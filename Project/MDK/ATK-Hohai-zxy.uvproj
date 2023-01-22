@@ -493,6 +493,36 @@
             </File>
           </Files>
         </Group>
+        <Group>
+          <GroupName>APP_Timer</GroupName>
+          <Files>
+            <File>
+              <FileName>Timer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\CODE\Timer.c</FilePath>
+            </File>
+            <File>
+              <FileName>Timer.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\CODE\Timer.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>APP_FSM</GroupName>
+          <Files>
+            <File>
+              <FileName>FSM.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\CODE\FSM.c</FilePath>
+            </File>
+            <File>
+              <FileName>FSM.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\CODE\FSM.h</FilePath>
+            </File>
+          </Files>
+        </Group>
       </Groups>
     </Target>
   </Targets>
