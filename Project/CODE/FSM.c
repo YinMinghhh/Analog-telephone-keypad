@@ -2,8 +2,9 @@
 
 Timer CoolDown;
 
-void FSM_init(uint32 time){
-    Timer_init(&CoolDown, time);
+uint8 FSM_init(uint32 time){
+    if(!Timer_init(&CoolDown, time))
+    return 0;
 }
 
 void FSM_service(DyDigiTube_4x2 *const THIS, KeyBoard_4x4 *const KeyBoard){

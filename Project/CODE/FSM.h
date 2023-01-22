@@ -5,15 +5,15 @@
 #include "DyDigiTube.h"
 #include "Timer.h"
 
-// typedef struct {
-//     ButtonName  last_button;
-// } KeyBoardCooldown;
-
-// uint8 KeyBoardCooldown_init(KeyBoardCooldown *const THIS);
+typedef enum {
+    Enter_number = 0,   // 输入号码阶段
+    Dail_wait,          // 等待接通阶段
+    Put_through,        // 正在通话阶段
+} FSM_STATES;
 
 extern Timer CoolDown;
 
-void    FSM_init(uint32 time);
+uint8   FSM_init(uint32 time);
 void    FSM_service(DyDigiTube_4x2 *const THIS, KeyBoard_4x4 *const KeyBoard);
 
 
