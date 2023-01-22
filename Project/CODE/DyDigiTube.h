@@ -24,7 +24,7 @@ typedef enum {
     DDT_asterisk,   // *, 序号10
     DDT_pound,      // #, 序号11
 
-    DDT_puls,       // -, 序号12, 代表暂时没有数字
+    DDT_minus,       // -, 序号12, 代表暂时没有数字
 } Display;
 
 /***
@@ -40,7 +40,6 @@ typedef struct {
 uint8 DyDigiTube_4x2_init(DyDigiTube_4x2 *const THIS);
 void DyDigiTube_4x2_PutNum(DyDigiTube_4x2 *const THIS);
 void DyDigiTube_4x2_push(DyDigiTube_4x2 *const THIS, uint8 num);
-void DyDigiTube_4x2_service(DyDigiTube_4x2 *const THIS, KeyBoard_4x4 *const KeyBoard);
 
 
 #endif // !_DYNAMIC_DIGITAL_TUBE_H_

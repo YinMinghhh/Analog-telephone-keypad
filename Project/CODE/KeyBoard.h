@@ -8,6 +8,7 @@
 #define _KEYBOARD_H_
 
 #include "common.h"
+#include "Timer.h"
 
 /***
  * P0 ~ P7 依次连接 H1 ~ H4, L1 ~ L4
@@ -40,6 +41,8 @@ typedef enum {
     Backspace,  // 退格(好像座机也没有退格?)
     Redial,     // 重拨(重拨上一次的电话, 如果有记录的话)
 
+    NONE,       // 没有按键被按下
+
     DEFAULT,    // 意外情况
 } ButtonName;
 
@@ -52,6 +55,7 @@ typedef struct {
     uint8   _key_save_read_data;
     uint8   _count;     // 用于计数消抖
     uint8   _flag;      // 用于防止重入
+    ButtonName  _last_button;
 
     ButtonName  button_na;  // 按键状态
     uint8   enable;     // 初始化时置为1
