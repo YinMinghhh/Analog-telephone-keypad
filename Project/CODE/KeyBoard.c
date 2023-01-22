@@ -76,38 +76,11 @@ ButtonName KeyBoard_4x4_scan(KeyBoard_4x4 *const THIS) {
 
                 default:    THIS->button_na = DEFAULT;  break;
             }
-
-             
-//             if(THIS->button_na == THIS->_last_button) {
-//                 if(Timer_judge(&THIS->_same)) {
-//                     THIS->_last_button = THIS->button_na;
-// //                    printf("Timer_Same");
-// //									%lu_%lu\r\n", SYStim, THIS->_same->last_time);
-//                 }
-//                 else {
-//                     THIS->button_na = NONE;
-//                 }
-//             }
-//             else {
-//                 if(Timer_judge(&THIS->_diff)) {
-//                     THIS->_last_button = THIS->button_na;
-//                 }
-//                 else {
-//                     THIS->button_na = NONE;
-//                 }
-//             }
-
-            // putchar('H');
             THIS->_flag  = 0;   // 禁止再次进入按键处理
             THIS->_count = 0;   // 计数清零
-
-            // if(!Timer_judge(&THIS->_same)){
-            //     THIS->button_na = NONE;
-            //     putchar('N');
-            // }
         }
     }
-    else if (!(THIS->_key_save_read_data)) {   // 没有按键被按下
+    if (!(THIS->_key_save_read_data)) {   // 没有按键被按下
         THIS->_flag  = 1;
         THIS->_count = 0;       // 计数清零
         THIS->button_na = NONE;

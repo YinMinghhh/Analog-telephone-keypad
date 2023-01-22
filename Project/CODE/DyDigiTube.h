@@ -43,6 +43,7 @@ void    DyDigiTube_4x2_PutNum(DyDigiTube_4x2 *const THIS);
 void    DyDigiTube_4x2_push(DyDigiTube_4x2 *const THIS, uint8 num);
 void    DyDigiTube_4x2_popb(DyDigiTube_4x2 *const THIS);
 void    DyDigiTube_4x2_Dail(DyDigiTube_4x2 *const THIS);
+void    DyDigiTube_4x2_Hang(DyDigiTube_4x2 *const THIS);
 
 
 #endif // !_DYNAMIC_DIGITAL_TUBE_H_

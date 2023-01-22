@@ -5,12 +5,15 @@ sbit LSB=P2^3;
 sbit LSC=P2^4;
 
 // 共阴极数码管
-static const uint8 DISPLAY[13] = {
+static const uint8 code DISPLAY[13] = {
     0x3F,0x06,0x5B,0x4F,0x66,   // 0 ~ 4
     0x6D,0x7D,0x07,0x7F,0x6F,   // 5 ~ 9
     0x77,0x73,                  // A -> *, P -> #
     0x40, };                    // -
 
+/***
+ * @date    2023-01-18
+*/
 uint8 DyDigiTube_4x2_init(DyDigiTube_4x2 *const THIS){
     uint8 i = 0x00;
     THIS->enable = 1;
@@ -24,6 +27,10 @@ uint8 DyDigiTube_4x2_init(DyDigiTube_4x2 *const THIS){
     return 0;
 }
 
+/***
+ * @date    2023-01-18
+ * @note    不要在定时器中断里调用
+*/
 void Delay1ms()		//@12.000MHz
 {
 	unsigned char i, j;
@@ -38,6 +45,7 @@ void Delay1ms()		//@12.000MHz
 
 /***
  * @date    2023-01-18
+ * @note    不要在定时器中断里调用
 */
 void DyDigiTube_4x2_PutNum(DyDigiTube_4x2 *const THIS) {
     uint8 i = 0x00;
@@ -52,6 +60,9 @@ void DyDigiTube_4x2_PutNum(DyDigiTube_4x2 *const THIS) {
     
 }
 
+/***
+ * @date    2023-01-18
+*/
 void DyDigiTube_4x2_push(DyDigiTube_4x2 *const THIS, Display num){
     uint8 i = 0x00;
     THIS->_emtp = 0;
@@ -87,6 +98,9 @@ void DyDigiTube_4x2_popb(DyDigiTube_4x2 *const THIS) {
     return ;
 }
 
+/***
+ * @date   2023-01-22
+*/
 void DyDigiTube_4x2_Dail(DyDigiTube_4x2 *const THIS) {
     uint8 i = 0x00;
     if(!THIS->_full) {
@@ -112,5 +126,18 @@ void DyDigiTube_4x2_Dail(DyDigiTube_4x2 *const THIS) {
         }
     }
     printf("\r\n");
+    return ;
+}
+
+/***
+ * @date   2023-01-22
+*/
+void DyDigiTube_4x2_Hang(DyDigiTube_4x2 *const THIS) {
+    uint8 i = 0x00;
+    THIS->_full = 0;
+    THIS->_emtp = 1;
+    for(; i < 0x08; i++){
+        THIS->display[i] = DDT_minus;
+    }
     return ;
 }
