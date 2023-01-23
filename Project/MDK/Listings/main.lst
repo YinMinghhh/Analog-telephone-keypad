@@ -1,4 +1,4 @@
-C51 COMPILER V9.57.0.0   MAIN                                                              01/22/2023 21:07:53 PAGE 1   
+C51 COMPILER V9.57.0.0   MAIN                                                              01/23/2023 19:32:39 PAGE 1   
 
 
 C51 COMPILER V9.57.0.0, COMPILATION OF MODULE MAIN
@@ -39,9 +39,9 @@ line level    source
   28   1          EnableGlobalIRQ();      // 打开总中断
   29   1      
   30   1          // DyDigiTube_4x2_push(&dy_digital_tube, 1);
-  31   1          while(1){
-  32   2              DyDigiTube_4x2_PutNum(&dy_digital_tube);
-  33   2          }
+  31   1          LOOP:
+  32   1              DyDigiTube_4x2_PutNum(&dy_digital_tube);
+  33   1          goto LOOP;
   34   1      }
   35          
   36          

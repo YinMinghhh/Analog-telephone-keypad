@@ -1,4 +1,4 @@
-C51 COMPILER V9.57.0.0   ISR                                                               01/22/2023 21:07:16 PAGE 1   
+C51 COMPILER V9.57.0.0   ISR                                                               01/23/2023 19:32:38 PAGE 1   
 
 
 C51 COMPILER V9.57.0.0, COMPILATION OF MODULE ISR
@@ -24,9 +24,9 @@ line level    source
   13          
   14          
   15          void TM0_Isr() interrupt 1 {
-  16   1        if((SYStim += 5) < 4294967000) {  // 4294967295
+  16   1        if((SYStim += 5) < 4294967000) {  // Լ238Сʱ
   17   2          FeedDog;
-  18   2        }
+  18   2        }// 4294967295
   19   1        FSM_service(&dy_digital_tube, &key_board);
   20   1      }
   21          
@@ -62,7 +62,7 @@ line level    source
   51          //void TM3_Routine(void) interrupt 19
   52          //void TM4_Routine(void) interrupt 20
   53          //void CMP_Routine(void) interrupt 21
-C51 COMPILER V9.57.0.0   ISR                                                               01/22/2023 21:07:16 PAGE 2   
+C51 COMPILER V9.57.0.0   ISR                                                               01/23/2023 19:32:38 PAGE 2   
 
   54          //void PWM0_Routine(void) interrupt 22
   55          //void PWM0FD_Routine(void) interrupt 23

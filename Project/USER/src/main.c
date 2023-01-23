@@ -28,9 +28,9 @@ void main(){
     EnableGlobalIRQ();      // 打开总中断
 
     // DyDigiTube_4x2_push(&dy_digital_tube, 1);
-    while(1){
+    LOOP:
         DyDigiTube_4x2_PutNum(&dy_digital_tube);
-    }
+    goto LOOP;
 }
 
 
