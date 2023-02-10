@@ -16,7 +16,7 @@ void modules_init() {
     UartInit();                 // 串口通讯初始化
     printf("SYSclk:12M\r\nTIM0_PIT:10ms\r\nUART_BAUD:2400\r\n");    // 打印基本信息
     // Timer_init(&same_key_timer, 500);
-    FSM_init(100);
+    _FSM_act_GLOABLE_init(100, 60000, 45000);
     KeyBoard_4x4_init(&key_board);
     DyDigiTube_4x2_init(&dy_digital_tube);
 }

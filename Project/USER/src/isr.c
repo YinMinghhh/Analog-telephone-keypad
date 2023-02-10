@@ -5,18 +5,24 @@
  * @date    2023-01-17
 */
 
+#include "isr.h"
 #include "board.h"
 #include "modules.h"
 #include "FSM.h"
 
-// sbit LED1 = P2^0;
-
+uint8 uart_receive = 0xFF;
 
 void TM0_Isr() interrupt 1 {
+	// putchar('H');
 	if((SYStim += 5) < 4294967000) {	// Լ238Сʱ
 		FeedDog;
 	}// 4294967295
-	FSM_service(&dy_digital_tube, &key_board);
+	if (SYStim % 200 == 0) {
+		if (uart_receive != 0xFF) {
+			uart_receive = 0xFF;
+		}
+	}
+	FSM_OPERATION();
 }
 
 /***
@@ -29,7 +35,8 @@ void UART1_Routine(void) interrupt 4 {
 		RI = 0;
 		res = SBUF;
 	}
-	putchar(res);
+	// putchar(res);
+	uart_receive = res;
 }
 
 //void INT0_Routine(void) interrupt 0

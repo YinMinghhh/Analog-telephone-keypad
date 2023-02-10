@@ -21,7 +21,7 @@
 */
 void main(){
     void modules_init();
-    sys_clk = 12000000;
+//    sys_clk = 12000000;
     board_init();           // 基本寄存器初始化并关闭总中断
     modules_init();         // 外设初始化
     EnableWDT();            // 使能看门狗
