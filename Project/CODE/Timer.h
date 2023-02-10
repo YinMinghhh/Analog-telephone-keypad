@@ -13,5 +13,6 @@ typedef struct {
 
 uint8   Timer_init (Timer *const THIS, uint32 dur);
 uint8   Timer_judge(Timer *const THIS);
+void    Timer_reset(Timer *const THIS);
 
 #endif // !_TIMER_H_
