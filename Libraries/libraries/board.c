@@ -6,7 +6,7 @@
 
 #include "board.h"
 
-int32 sys_clk = 24000000;
+int32 code sys_clk = 24000000;
 
 /***
  * @brief	°å×Ó³õÊ¼»¯

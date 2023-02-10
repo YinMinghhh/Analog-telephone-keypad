@@ -4,7 +4,7 @@
 
 #define FeedDog WDT_CONTR=0x34
 
-extern int32 sys_clk;
+extern int32 code sys_clk;
 
 void board_init(void);
 void DisableGlobalIRQ(void);
