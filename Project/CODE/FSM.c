@@ -1,39 +1,58 @@
 #include "FSM.h"
 
-Timer CoolDown;
+Timer keyboard_CoolDown;
+FSM_STATES  curr_state = Enter_number;
+FSM_STATES  last_state = Default;
 
-uint8 FSM_init(uint32 time){
-    if(!Timer_init(&CoolDown, time))
-    return 0;
-}
-
-void FSM_service(DyDigiTube_4x2 *const THIS, KeyBoard_4x4 *const KeyBoard){
-    KeyBoard_4x4_scan(KeyBoard);
-    _nop_();_nop_();_nop_();_nop_();
-    _nop_();_nop_();_nop_();_nop_();
-    
-    if (Timer_judge(&CoolDown)) {
-        switch (KeyBoard->button_na) {
-            case zero:  DyDigiTube_4x2_push(THIS, DDT_zero);    break;
-            case one:   DyDigiTube_4x2_push(THIS, DDT_one);     break;
-            case two:   DyDigiTube_4x2_push(THIS, DDT_two);     break;
-            case three: DyDigiTube_4x2_push(THIS, DDT_three);   break;
-            case four:  DyDigiTube_4x2_push(THIS, DDT_four);    break;
-            case five:  DyDigiTube_4x2_push(THIS, DDT_five);    break;
-            case six:   DyDigiTube_4x2_push(THIS, DDT_six);     break;
-            case seven: DyDigiTube_4x2_push(THIS, DDT_seven);   break;
-            case eight: DyDigiTube_4x2_push(THIS, DDT_eight);   break;
-            case nine:  DyDigiTube_4x2_push(THIS, DDT_nine);    break;
-
-            case Backspace: DyDigiTube_4x2_popb(THIS);          break;
-
-            case Dail:  DyDigiTube_4x2_Dail(THIS);              break;
-            case Hang:  DyDigiTube_4x2_Hang(THIS);              break;
-            case Redial:DyDigiTube_4x2_Redail(THIS);            break;
-            default:
-                break;
+void FSM_OPERATION() {
+    uint8 i = 0x00;
+    for(; i < FSM_CAP_OF_ACTIONS; i++) {
+        if (curr_state == FSM_actions[i].work_mode) {
+            if (last_state != curr_state) {
+                FSM_actions[i].init();
+                last_state = curr_state;
+            }
+            _FSM_act_GLOABLE_loop();
+            FSM_actions[i].loop();
+            _FSM_MODE_TRANS_();
+            break;
         }
     }
-    
-    
+}
+
+void _FSM_MODE_TRANS_() {
+    uint8 i = 0x00;
+    for(; i < FSM_CAP_OF_TRANSITION; i++) {
+        if (curr_state == FSM_transition[i].start_sate) {
+            if (FSM_transition[i].check()) {
+                curr_state = FSM_transition[i].next_state;
+                break;
+            }
+        }
+    }
+}
+
+/***
+ * @brief   有限状态机全局初始化
+ * @param   time1   键盘冷却时间, 默认 100 ms 即可
+ * @param   time2   等待重拨的时间, 题目要求 60000 ms
+ * @param   time3   拨号最长等待时间
+ * @date    2023-02-10
+*/
+void _FSM_act_GLOABLE_init(uint32 time1, uint32 time2, uint32 time3)
+{
+    Timer_init(&keyboard_CoolDown, time1);
+    Timer_init(&Redail_Cool_down, time2);
+    Timer_init(&Dail_Wait_time, time3);
+}
+
+/***
+ * @brief   有限状态机全局动作
+ * @date    2023-02-10
+*/
+void _FSM_act_GLOABLE_loop()
+{
+    KeyBoard_4x4_scan(&key_board);
+    _nop_();_nop_();_nop_();_nop_();
+    _nop_();_nop_();_nop_();_nop_();
 }
