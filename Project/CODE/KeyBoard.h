@@ -58,7 +58,6 @@ typedef struct {
     ButtonName  _last_button;
 
     ButtonName  button_na;  // 按键状态
-    uint8   enable;     // 初始化时置为1
 } KeyBoard_4x4;
 
 uint8   KeyBoard_4x4_init(KeyBoard_4x4 *const THIS);

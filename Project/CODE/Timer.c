@@ -5,7 +5,6 @@ vuint32 SYStim = 0;
 uint8 Timer_init(Timer *const THIS, uint32 dur){
     THIS->last_time = SYStim;
     THIS->duration = dur;
-    THIS->enable = 1;
     return 0;
 }
 

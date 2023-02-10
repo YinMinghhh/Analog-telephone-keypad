@@ -16,7 +16,6 @@ static const uint8 code DISPLAY[13] = {
 */
 uint8 DyDigiTube_4x2_init(DyDigiTube_4x2 *const THIS){
     uint8 i = 0x00;
-    THIS->enable = 1;
     THIS->enable_last = 0;
     THIS->_full  = 0;
     THIS->_emtp  = 1;
@@ -108,11 +107,11 @@ void DyDigiTube_4x2_popb(DyDigiTube_4x2 *const THIS) {
  * @brief   拨号功能, 不满八位不予拨号
  * @date    2023-01-22
 */
-void DyDigiTube_4x2_Dail(DyDigiTube_4x2 *const THIS) {
+uint8 DyDigiTube_4x2_Dail(DyDigiTube_4x2 *const THIS) {
     uint8 i = 0x00;
     if(!THIS->_full) {
         printf("Not Correct.\r\n");
-        return ;
+        return 0;
     }
     if(!THIS->enable_last) {
         THIS->enable_last = 1;
@@ -138,7 +137,7 @@ void DyDigiTube_4x2_Dail(DyDigiTube_4x2 *const THIS) {
         THIS->last_nu[i] = THIS->display[i];
     }
     printf("\r\n");
-    return ;
+    return 1;
 }
 
 /***
@@ -159,15 +158,15 @@ void DyDigiTube_4x2_Hang(DyDigiTube_4x2 *const THIS) {
  * @brief   重拨按钮功能
  * @date    2023-02-10
 */
-void DyDigiTube_4x2_Redail(DyDigiTube_4x2 *const THIS) {
+uint8 DyDigiTube_4x2_Redail(DyDigiTube_4x2 *const THIS) {
     uint8 i = 0x00;
     if(!THIS->enable_last) {
         printf("Fail to redail.\r\n");
-        return ;
+        return 0;
     }
     for(; i < 0x08; i++) {
         DyDigiTube_4x2_push(THIS, THIS->last_nu[i]);
     }
     DyDigiTube_4x2_Dail(THIS);
-    return ;
+    return 1;
 }

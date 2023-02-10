@@ -9,7 +9,6 @@ typedef struct {
     vuint32  last_time;
     uint32  duration;
     uint8   valid;
-    uint8   enable;
 } Timer;
 
 uint8   Timer_init (Timer *const THIS, uint32 dur);

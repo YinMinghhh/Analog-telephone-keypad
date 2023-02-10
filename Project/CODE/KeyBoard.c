@@ -17,8 +17,6 @@ uint8 KeyBoard_4x4_init(KeyBoard_4x4 *const THIS) {
     THIS->button_na    = NONE;
     THIS->_last_button = one;
 
-    THIS->enable = 1;
-
     printf("KeyBoard_4x4_init_%d\r\n", THIS->_count);
     return 0;
 }
