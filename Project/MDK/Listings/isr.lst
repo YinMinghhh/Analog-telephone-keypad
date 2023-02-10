@@ -1,4 +1,4 @@
-C51 COMPILER V9.57.0.0   ISR                                                               02/10/2023 11:05:38 PAGE 1   
+C51 COMPILER V9.57.0.0   ISR                                                               02/10/2023 17:21:20 PAGE 1   
 
 
 C51 COMPILER V9.57.0.0, COMPILATION OF MODULE ISR
@@ -16,73 +16,80 @@ line level    source
    5           * @date    2023-01-17
    6          */
    7          
-   8          #include "board.h"
-   9          #include "modules.h"
-  10          #include "FSM.h"
-  11          
-  12          // sbit LED1 = P2^0;
-  13          
+   8          #include "isr.h"
+   9          #include "board.h"
+  10          #include "modules.h"
+  11          #include "FSM.h"
+  12          
+  13          uint8 uart_receive = 0xFF;
   14          
   15          void TM0_Isr() interrupt 1 {
-  16   1        if((SYStim += 5) < 4294967000) {  // 约238小时
-  17   2          FeedDog;
-  18   2        }// 4294967295
-  19   1        FSM_service(&dy_digital_tube, &key_board);
-  20   1      }
-  21          
-  22          /***
-  23           * @brief 只负责接收数据
-  24           * @date  2023-01-17
-  25          */
-  26          void UART1_Routine(void) interrupt 4 {
-  27   1          uint8 res;
-  28   1          if(RI){ // receive
-  29   2          RI = 0;
-  30   2          res = SBUF;
-  31   2        }
-  32   1        putchar(res);
-  33   1      }
-  34          
-  35          //void INT0_Routine(void) interrupt 0
-  36          //void TM0_Rountine(void) interrupt 1
-  37          //void INT1_Routine(void) interrupt 2
-  38          //void TM1_Rountine(void) interrupt 3
-  39          //void UART1_Routine(void) interrupt 4
-  40          //void ADC_Routine(void) interrupt 5
-  41          //void LVD_Routine(void) interrupt 6
-  42          //void PCA_Routine(void) interrupt 7
-  43          //void UART2_Routine(void) interrupt 8
-  44          //void SPI_Routine(void) interrupt 9
-  45          //void INT2_Routine(void) interrupt 10
-  46          //void INT3_Routine(void) interrupt 11
-  47          //void TM2_Routine(void) interrupt 12
-  48          //void INT4_Routine(void) interrupt 16
-  49          //void UART3_Routine(void) interrupt 17
-  50          //void UART4_Routine(void) interrupt 18
-  51          //void TM3_Routine(void) interrupt 19
-  52          //void TM4_Routine(void) interrupt 20
-  53          //void CMP_Routine(void) interrupt 21
-C51 COMPILER V9.57.0.0   ISR                                                               02/10/2023 11:05:38 PAGE 2   
+  16   1        // putchar('H');
+  17   1        if((SYStim += 5) < 4294967000) {  // 约238小时
+  18   2          FeedDog;
+  19   2        }// 4294967295
+  20   1        if (SYStim % 200 == 0) {
+  21   2          if (uart_receive != 0xFF) {
+  22   3            uart_receive = 0xFF;
+  23   3          }
+  24   2        }
+  25   1        FSM_OPERATION();
+  26   1      }
+  27          
+  28          /***
+  29           * @brief 只负责接收数据
+  30           * @date  2023-01-17
+  31          */
+  32          void UART1_Routine(void) interrupt 4 {
+  33   1          uint8 res;
+  34   1          if(RI){ // receive
+  35   2          RI = 0;
+  36   2          res = SBUF;
+  37   2        }
+  38   1        // putchar(res);
+  39   1        uart_receive = res;
+  40   1      }
+  41          
+  42          //void INT0_Routine(void) interrupt 0
+  43          //void TM0_Rountine(void) interrupt 1
+  44          //void INT1_Routine(void) interrupt 2
+  45          //void TM1_Rountine(void) interrupt 3
+  46          //void UART1_Routine(void) interrupt 4
+  47          //void ADC_Routine(void) interrupt 5
+  48          //void LVD_Routine(void) interrupt 6
+  49          //void PCA_Routine(void) interrupt 7
+  50          //void UART2_Routine(void) interrupt 8
+  51          //void SPI_Routine(void) interrupt 9
+  52          //void INT2_Routine(void) interrupt 10
+  53          //void INT3_Routine(void) interrupt 11
+C51 COMPILER V9.57.0.0   ISR                                                               02/10/2023 17:21:20 PAGE 2   
 
-  54          //void PWM0_Routine(void) interrupt 22
-  55          //void PWM0FD_Routine(void) interrupt 23
-  56          //void I2C_Routine(void) interrupt 24
-  57          //void PWM1_Routine(void) interrupt 28
-  58          //void PWM2_Routine(void) interrupt 29
-  59          //void PWM3_Routine(void) interrupt 30
-  60          //void PWM4_Routine(void) interrupt 31
-  61          //void PWM5_Routine(void) interrupt 32
-  62          //void PWM2FD_Routine(void) interrupt 33
-  63          //void PWM4FD_Routine(void) interrupt 34
-  64          //void TKSU_Routine(void) interrupt 35
+  54          //void TM2_Routine(void) interrupt 12
+  55          //void INT4_Routine(void) interrupt 16
+  56          //void UART3_Routine(void) interrupt 17
+  57          //void UART4_Routine(void) interrupt 18
+  58          //void TM3_Routine(void) interrupt 19
+  59          //void TM4_Routine(void) interrupt 20
+  60          //void CMP_Routine(void) interrupt 21
+  61          //void PWM0_Routine(void) interrupt 22
+  62          //void PWM0FD_Routine(void) interrupt 23
+  63          //void I2C_Routine(void) interrupt 24
+  64          //void PWM1_Routine(void) interrupt 28
+  65          //void PWM2_Routine(void) interrupt 29
+  66          //void PWM3_Routine(void) interrupt 30
+  67          //void PWM4_Routine(void) interrupt 31
+  68          //void PWM5_Routine(void) interrupt 32
+  69          //void PWM2FD_Routine(void) interrupt 33
+  70          //void PWM4FD_Routine(void) interrupt 34
+  71          //void TKSU_Routine(void) interrupt 35
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    189    ----
+   CODE SIZE        =    170    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =   ----       1
+   DATA SIZE        =      1    ----
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.

@@ -1,4 +1,4 @@
-C51 COMPILER V9.57.0.0   KEYBOARD                                                          01/22/2023 14:41:05 PAGE 1   
+C51 COMPILER V9.57.0.0   KEYBOARD                                                          02/10/2023 16:41:28 PAGE 1   
 
 
 C51 COMPILER V9.57.0.0, COMPILATION OF MODULE KEYBOARD
@@ -28,88 +28,86 @@ line level    source
   17   1          THIS->button_na    = NONE;
   18   1          THIS->_last_button = one;
   19   1      
-  20   1          THIS->enable = 1;
-  21   1      
-  22   1          printf("KeyBoard_4x4_init_%d\r\n", THIS->_count);
-  23   1          return 0;
-  24   1      }
-  25          
-  26          /***
-  27           * @brief   |KeyBoard_4x4对象|
-  28           *          内部调用
-  29           * @date    2013-01-18
-  30          */
-  31          uint8 _KeyBoard_4x4_read(KeyBoard_4x4 *const THIS) {
-  32   1          THIS->_key_save_read_data  = 0x00; // 清除数据, 0表示没有按键被按下
-  33   1          key_4x4_pin = 0xF0;             // 检测高四位, 找出列号
-  34   1          _nop_();_nop_();_nop_();_nop_();
-  35   1          THIS->_key_save_read_data  = key_4x4_pin ^ 0xF0;    // 保留高四位数据, 如果有被按下的置
+  20   1      //    printf("KeyBoard_4x4_init_%d\r\n", THIS->_count);
+  21   1          return 0;
+  22   1      }
+  23          
+  24          /***
+  25           * @brief   |KeyBoard_4x4对象|
+  26           *          内部调用
+  27           * @date    2013-01-18
+  28          */
+  29          uint8 _KeyBoard_4x4_read(KeyBoard_4x4 *const THIS) {
+  30   1          THIS->_key_save_read_data  = 0x00; // 清除数据, 0表示没有按键被按下
+  31   1          key_4x4_pin = 0xF0;             // 检测高四位, 找出列号
+  32   1          _nop_();_nop_();_nop_();_nop_();
+  33   1          THIS->_key_save_read_data  = key_4x4_pin ^ 0xF0;    // 保留高四位数据, 如果有被按下的置
              -1
-  36   1      
-  37   1          key_4x4_pin = 0x0F;             // 检测低四位, 找出行号
-  38   1          _nop_();_nop_();_nop_();_nop_();
-  39   1          THIS->_key_save_read_data += key_4x4_pin ^ 0x0F;    // 加上低四位数据, 给出被按下键的坐
+  34   1      
+  35   1          key_4x4_pin = 0x0F;             // 检测低四位, 找出行号
+  36   1          _nop_();_nop_();_nop_();_nop_();
+  37   1          THIS->_key_save_read_data += key_4x4_pin ^ 0x0F;    // 加上低四位数据, 给出被按下键的坐
              -标
-  40   1          return THIS->_key_save_read_data;
-  41   1      }
-  42          
-  43          /***
-  44           * @brief   |KeyBoard_4x4对象|
-  45           *          扫描键盘
-  46           *          并给出被按下的按键状态, 
-  47           *          或者给出没有按键被按下的说明
-  48           * @date    2023-01-18
-  49          */
-  50          ButtonName KeyBoard_4x4_scan(KeyBoard_4x4 *const THIS) {
-  51   1          if(_KeyBoard_4x4_read(THIS) && THIS->_flag) {   // 有按键被按下 且 允许处理. 
-C51 COMPILER V9.57.0.0   KEYBOARD                                                          01/22/2023 14:41:05 PAGE 2   
+  38   1          return THIS->_key_save_read_data;
+  39   1      }
+  40          
+  41          /***
+  42           * @brief   |KeyBoard_4x4对象|
+  43           *          扫描键盘
+  44           *          并给出被按下的按键状态, 
+  45           *          或者给出没有按键被按下的说明
+  46           * @date    2023-01-18
+  47          */
+  48          ButtonName KeyBoard_4x4_scan(KeyBoard_4x4 *const THIS) {
+  49   1          if(_KeyBoard_4x4_read(THIS) && THIS->_flag) {   // 有按键被按下 且 允许处理. 
+  50   2          // 不要更换 && 左右内容的顺序, 以保证即使_flag为0时read函数仍会被执行. 
+  51   2              // THIS->_count++;
+C51 COMPILER V9.57.0.0   KEYBOARD                                                          02/10/2023 16:41:28 PAGE 2   
 
-  52   2          // 不要更换 && 左右内容的顺序, 以保证即使_flag为0时read函数仍会被执行. 
-  53   2              // THIS->_count++;
-  54   2              if(++THIS->_count > 1) {    // 计数消抖
-  55   3                  switch(THIS->_key_save_read_data) { 
-  56   4                      // 按键处理, 从_key_save_read_data映射到实际
-  57   4                      case 0x11:  THIS->button_na = one;  break;
-  58   4                      case 0x21:  THIS->button_na = two;  break;
-  59   4                      case 0x41:  THIS->button_na = three;    break;
-  60   4                      case 0x81:  THIS->button_na = Dail; break;
-  61   4      
-  62   4                      case 0x12:  THIS->button_na = four; break;
-  63   4                      case 0x22:  THIS->button_na = five; break;
-  64   4                      case 0x42:  THIS->button_na = six;  break;
-  65   4                      case 0x82:  THIS->button_na = Hang; break;
-  66   4      
-  67   4                      case 0x14:  THIS->button_na = seven;    break;
-  68   4                      case 0x24:  THIS->button_na = eight;    break;
-  69   4                      case 0x44:  THIS->button_na = nine; break;
-  70   4                      case 0x84:  THIS->button_na = Backspace;    break;
-  71   4      
-  72   4                      case 0x18:  THIS->button_na = asterisk; break;
-  73   4                      case 0x28:  THIS->button_na = zero; break;
-  74   4                      case 0x48:  THIS->button_na = pound;    break;
-  75   4                      case 0x88:  THIS->button_na = Redial;   break;
-  76   4      
-  77   4                      default:    THIS->button_na = DEFAULT;  break;
-  78   4                  }
-  79   3                  THIS->_flag  = 0;   // 禁止再次进入按键处理
-  80   3                  THIS->_count = 0;   // 计数清零
-  81   3              }
-  82   2          }
-  83   1          if (!(THIS->_key_save_read_data)) {   // 没有按键被按下
-  84   2              THIS->_flag  = 1;
-  85   2              THIS->_count = 0;       // 计数清零
-  86   2              THIS->button_na = NONE;
-  87   2          }
-  88   1          return  THIS->button_na;
-  89   1      }
+  52   2              if(++THIS->_count > 1) {    // 计数消抖
+  53   3                  switch(THIS->_key_save_read_data) { 
+  54   4                      // 按键处理, 从_key_save_read_data映射到实际
+  55   4                      case 0x11:  THIS->button_na = one;  break;
+  56   4                      case 0x21:  THIS->button_na = two;  break;
+  57   4                      case 0x41:  THIS->button_na = three;    break;
+  58   4                      case 0x81:  THIS->button_na = Dail; break;
+  59   4      
+  60   4                      case 0x12:  THIS->button_na = four; break;
+  61   4                      case 0x22:  THIS->button_na = five; break;
+  62   4                      case 0x42:  THIS->button_na = six;  break;
+  63   4                      case 0x82:  THIS->button_na = Hang; break;
+  64   4      
+  65   4                      case 0x14:  THIS->button_na = seven;    break;
+  66   4                      case 0x24:  THIS->button_na = eight;    break;
+  67   4                      case 0x44:  THIS->button_na = nine; break;
+  68   4                      case 0x84:  THIS->button_na = Backspace;    break;
+  69   4      
+  70   4                      case 0x18:  THIS->button_na = asterisk; break;
+  71   4                      case 0x28:  THIS->button_na = zero; break;
+  72   4                      case 0x48:  THIS->button_na = pound;    break;
+  73   4                      case 0x88:  THIS->button_na = Redial;   break;
+  74   4      
+  75   4                      default:    THIS->button_na = DEFAULT;  break;
+  76   4                  }
+  77   3                  THIS->_flag  = 0;   // 禁止再次进入按键处理
+  78   3                  THIS->_count = 0;   // 计数清零
+  79   3              }
+  80   2          }
+  81   1          if (!(THIS->_key_save_read_data)) {   // 没有按键被按下
+  82   2              THIS->_flag  = 1;
+  83   2              THIS->_count = 0;       // 计数清零
+  84   2              THIS->button_na = NONE;
+  85   2          }
+  86   1          return  THIS->button_na;
+  87   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    401    ----
-   CONSTANT SIZE    =     23    ----
+   CODE SIZE        =    364    ----
+   CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =   ----       6
+   DATA SIZE        =   ----       3
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.

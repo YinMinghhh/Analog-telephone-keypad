@@ -1,4 +1,4 @@
-C51 COMPILER V9.57.0.0   FSM                                                               02/10/2023 11:05:38 PAGE 1   
+C51 COMPILER V9.57.0.0   FSM                                                               02/10/2023 17:21:20 PAGE 1   
 
 
 C51 COMPILER V9.57.0.0, COMPILATION OF MODULE FSM
@@ -11,55 +11,75 @@ line level    source
 
    1          #include "FSM.h"
    2          
-   3          Timer CoolDown;
-   4          
-   5          uint8 FSM_init(uint32 time){
-   6   1          if(!Timer_init(&CoolDown, time))
-   7   1          return 0;
-   8   1      }
-   9          
-  10          void FSM_service(DyDigiTube_4x2 *const THIS, KeyBoard_4x4 *const KeyBoard){
-  11   1          KeyBoard_4x4_scan(KeyBoard);
-  12   1          _nop_();_nop_();_nop_();_nop_();
-  13   1          _nop_();_nop_();_nop_();_nop_();
-  14   1          
-  15   1          if (Timer_judge(&CoolDown)) {
-  16   2              switch (KeyBoard->button_na) {
-  17   3                  case zero:  DyDigiTube_4x2_push(THIS, DDT_zero);    break;
-  18   3                  case one:   DyDigiTube_4x2_push(THIS, DDT_one);     break;
-  19   3                  case two:   DyDigiTube_4x2_push(THIS, DDT_two);     break;
-  20   3                  case three: DyDigiTube_4x2_push(THIS, DDT_three);   break;
-  21   3                  case four:  DyDigiTube_4x2_push(THIS, DDT_four);    break;
-  22   3                  case five:  DyDigiTube_4x2_push(THIS, DDT_five);    break;
-  23   3                  case six:   DyDigiTube_4x2_push(THIS, DDT_six);     break;
-  24   3                  case seven: DyDigiTube_4x2_push(THIS, DDT_seven);   break;
-  25   3                  case eight: DyDigiTube_4x2_push(THIS, DDT_eight);   break;
-  26   3                  case nine:  DyDigiTube_4x2_push(THIS, DDT_nine);    break;
-  27   3      
-  28   3                  case Backspace: DyDigiTube_4x2_popb(THIS);          break;
-  29   3      
-  30   3                  case Dail:  DyDigiTube_4x2_Dail(THIS);              break;
-  31   3                  case Hang:  DyDigiTube_4x2_Hang(THIS);              break;
-  32   3                  case Redial:DyDigiTube_4x2_Redail(THIS);            break;
-  33   3                  default:
-  34   3                      break;
-  35   3              }
-  36   2          }
-  37   1          
-  38   1          
-  39   1      }
-*** WARNING C291 IN LINE 8 OF ..\CODE\FSM.c: not every exit path returns a value
+   3          Timer keyboard_CoolDown;
+   4          FSM_STATES  curr_state = Enter_number;
+   5          FSM_STATES  last_state = Default;
+   6          
+   7          void FSM_OPERATION() {
+   8   1          uint8 i = 0x00;
+   9   1          for(; i < FSM_CAP_OF_ACTIONS; i++) {
+  10   2              if (curr_state == FSM_actions[i].work_mode) {
+  11   3                  if (last_state != curr_state) {
+  12   4                      FSM_actions[i].init();
+  13   4                      last_state = curr_state;
+  14   4                  }
+  15   3                  _FSM_act_GLOABLE_loop();
+  16   3                  FSM_actions[i].loop();
+  17   3                  _FSM_MODE_TRANS_();
+  18   3                  break;
+  19   3              }
+  20   2          }
+  21   1      }
+  22          
+  23          void _FSM_MODE_TRANS_() {
+  24   1          uint8 i = 0x00;
+  25   1          for(; i < FSM_CAP_OF_TRANSITION; i++) {
+  26   2              if (curr_state == FSM_transition[i].start_sate) {
+  27   3                  if (FSM_transition[i].check()) {
+  28   4                      curr_state = FSM_transition[i].next_state;
+  29   4                      break;
+  30   4                  }
+  31   3              }
+  32   2          }
+  33   1      }
+  34          
+  35          /***
+  36           * @brief   有限状态机全局初始化
+  37           * @param   time1   键盘冷却时间, 默认 100 ms 即可
+  38           * @param   time2   等待重拨的时间, 题目要求 60000 ms
+  39           * @param   time3   拨号最长等待时间
+  40           * @date    2023-02-10
+  41          */
+  42          void _FSM_act_GLOABLE_init(uint32 time1, uint32 time2, uint32 time3)
+  43          {
+  44   1          Timer_init(&keyboard_CoolDown, time1);
+  45   1          Timer_init(&Redail_Cool_down, time2);
+  46   1          Timer_init(&Dail_Wait_time, time3);
+  47   1      }
+  48          
+  49          /***
+  50           * @brief   有限状态机全局动作
+  51           * @date    2023-02-10
+  52          */
+  53          void _FSM_act_GLOABLE_loop()
+C51 COMPILER V9.57.0.0   FSM                                                               02/10/2023 17:21:20 PAGE 2   
+
+  54          {
+  55   1          KeyBoard_4x4_scan(&key_board);
+  56   1          _nop_();_nop_();_nop_();_nop_();
+  57   1          _nop_();_nop_();_nop_();_nop_();
+  58   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    265    ----
+   CODE SIZE        =    247    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =     10       6
+   DATA SIZE        =     11      14
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.
 
 
-C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

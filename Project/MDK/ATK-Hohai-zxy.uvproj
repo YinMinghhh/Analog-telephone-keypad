@@ -348,7 +348,7 @@
             <DataOverlaying>1</DataOverlaying>
             <OverlayString></OverlayString>
             <MiscControls></MiscControls>
-            <DisableWarningNumbers></DisableWarningNumbers>
+            <DisableWarningNumbers>15, 16</DisableWarningNumbers>
             <LinkerCmdFile></LinkerCmdFile>
             <Assign></Assign>
             <ReserveString></ReserveString>
@@ -520,6 +520,16 @@
               <FileName>FSM.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\CODE\FSM.h</FilePath>
+            </File>
+            <File>
+              <FileName>FSM_actions.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\CODE\FSM_actions.c</FilePath>
+            </File>
+            <File>
+              <FileName>FSM_transition.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\CODE\FSM_transition.c</FilePath>
             </File>
           </Files>
         </Group>

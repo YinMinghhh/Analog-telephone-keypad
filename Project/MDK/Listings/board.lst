@@ -1,4 +1,4 @@
-C51 COMPILER V9.57.0.0   BOARD                                                             01/22/2023 21:07:01 PAGE 1   
+C51 COMPILER V9.57.0.0   BOARD                                                             02/10/2023 16:41:27 PAGE 1   
 
 
 C51 COMPILER V9.57.0.0, COMPILATION OF MODULE BOARD
@@ -17,7 +17,7 @@ line level    source
    6          
    7          #include "board.h"
    8          
-   9          int32 sys_clk = 24000000;
+   9          int32 code sys_clk = 24000000;
   10          
   11          /***
   12           * @brief °å×Ó³õÊ¼»¯
@@ -58,11 +58,11 @@ line level    source
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
    CODE SIZE        =     20    ----
-   CONSTANT SIZE    =   ----    ----
+   CONSTANT SIZE    =      4    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =      4    ----
-C51 COMPILER V9.57.0.0   BOARD                                                             01/22/2023 21:07:01 PAGE 2   
+   DATA SIZE        =   ----    ----
+C51 COMPILER V9.57.0.0   BOARD                                                             02/10/2023 16:41:27 PAGE 2   
 
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----

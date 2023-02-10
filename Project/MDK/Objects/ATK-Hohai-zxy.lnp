@@ -9,6 +9,9 @@
 ".\Objects\KeyBoard.obj",
 ".\Objects\DyDigiTube.obj",
 ".\Objects\Timer.obj",
-".\Objects\FSM.obj" 
+".\Objects\FSM.obj",
+".\Objects\FSM_actions.obj",
+".\Objects\FSM_transition.obj" 
 TO ".\Objects\ATK-Hohai-zxy" 
 PRINT(".\Listings\ATK-Hohai-zxy.m51") RAMSIZE(256) 
+DISABLEWARNING (15, 16) 

@@ -1,0 +1,1 @@
+"..\CODE\FSM_actions.c" OPTIMIZE (8,SPEED) BROWSE INCDIR(..\..\Libraries\libraries;..\USER\inc;..\CODE;..\..\Libraries\zxy_libraries) DEBUG OBJECTEXTEND PRINT(.\Listings\FSM_actions.lst) TABS (2) OBJECT(.\Objects\FSM_actions.obj)
