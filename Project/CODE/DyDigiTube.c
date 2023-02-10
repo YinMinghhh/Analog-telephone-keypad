@@ -45,8 +45,10 @@ void Delay1ms()		//@12.000MHz
 }
 
 /***
+ * @brief   (内部调用)数码管上显示一个数字
  * @date    2023-01-18
  * @note    不要在定时器中断里调用
+ *          可以在main函数的循环里用
 */
 void DyDigiTube_4x2_PutNum(DyDigiTube_4x2 *const THIS) {
     uint8 i = 0x00;
@@ -62,7 +64,9 @@ void DyDigiTube_4x2_PutNum(DyDigiTube_4x2 *const THIS) {
 }
 
 /***
+ * @brief   号码盘上增加一个数字
  * @date    2023-01-18
+ *          可以在main函数的循环里用
 */
 void DyDigiTube_4x2_push(DyDigiTube_4x2 *const THIS, Display num){
     uint8 i = 0x00;
@@ -81,6 +85,7 @@ void DyDigiTube_4x2_push(DyDigiTube_4x2 *const THIS, Display num){
 }
 
 /***
+ * @brief   号码盘上删除一个数字
  * @date    2023-01-22
 */
 void DyDigiTube_4x2_popb(DyDigiTube_4x2 *const THIS) {
@@ -100,7 +105,8 @@ void DyDigiTube_4x2_popb(DyDigiTube_4x2 *const THIS) {
 }
 
 /***
- * @date   2023-01-22
+ * @brief   拨号功能, 不满八位不予拨号
+ * @date    2023-01-22
 */
 void DyDigiTube_4x2_Dail(DyDigiTube_4x2 *const THIS) {
     uint8 i = 0x00;
@@ -136,7 +142,8 @@ void DyDigiTube_4x2_Dail(DyDigiTube_4x2 *const THIS) {
 }
 
 /***
- * @date   2023-01-22
+ * @brief   挂断功能(清除号码盘上的数字)
+ * @date    2023-01-22
 */
 void DyDigiTube_4x2_Hang(DyDigiTube_4x2 *const THIS) {
     uint8 i = 0x00;
@@ -148,6 +155,10 @@ void DyDigiTube_4x2_Hang(DyDigiTube_4x2 *const THIS) {
     return ;
 }
 
+/***
+ * @brief   重拨按钮功能
+ * @date    2023-02-10
+*/
 void DyDigiTube_4x2_Redail(DyDigiTube_4x2 *const THIS) {
     uint8 i = 0x00;
     if(!THIS->enable_last) {
