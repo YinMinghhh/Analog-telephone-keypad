@@ -32,6 +32,8 @@ typedef enum {
 */
 typedef struct {
     Display display[8];
+    Display last_nu[8];
+    uint8   enable_last;
     // cvector display = cvector_create(sizeof(Display));
     uint8   _full;
     uint8   _emtp;
@@ -44,6 +46,6 @@ void    DyDigiTube_4x2_push(DyDigiTube_4x2 *const THIS, uint8 num);
 void    DyDigiTube_4x2_popb(DyDigiTube_4x2 *const THIS);
 void    DyDigiTube_4x2_Dail(DyDigiTube_4x2 *const THIS);
 void    DyDigiTube_4x2_Hang(DyDigiTube_4x2 *const THIS);
-
+void    DyDigiTube_4x2_Redail(DyDigiTube_4x2 *const THIS);
 
 #endif // !_DYNAMIC_DIGITAL_TUBE_H_

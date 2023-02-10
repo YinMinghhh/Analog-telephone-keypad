@@ -29,6 +29,7 @@ void FSM_service(DyDigiTube_4x2 *const THIS, KeyBoard_4x4 *const KeyBoard){
 
             case Dail:  DyDigiTube_4x2_Dail(THIS);              break;
             case Hang:  DyDigiTube_4x2_Hang(THIS);              break;
+            case Redial:DyDigiTube_4x2_Redail(THIS);            break;
             default:
                 break;
         }

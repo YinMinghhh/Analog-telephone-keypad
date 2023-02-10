@@ -1,4 +1,4 @@
-C51 COMPILER V9.57.0.0   FSM                                                               01/22/2023 21:07:16 PAGE 1   
+C51 COMPILER V9.57.0.0   FSM                                                               02/10/2023 11:05:38 PAGE 1   
 
 
 C51 COMPILER V9.57.0.0, COMPILATION OF MODULE FSM
@@ -40,18 +40,19 @@ line level    source
   29   3      
   30   3                  case Dail:  DyDigiTube_4x2_Dail(THIS);              break;
   31   3                  case Hang:  DyDigiTube_4x2_Hang(THIS);              break;
-  32   3                  default:
-  33   3                      break;
-  34   3              }
-  35   2          }
-  36   1          
+  32   3                  case Redial:DyDigiTube_4x2_Redail(THIS);            break;
+  33   3                  default:
+  34   3                      break;
+  35   3              }
+  36   2          }
   37   1          
-  38   1      }
+  38   1          
+  39   1      }
 *** WARNING C291 IN LINE 8 OF ..\CODE\FSM.c: not every exit path returns a value
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    253    ----
+   CODE SIZE        =    265    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----

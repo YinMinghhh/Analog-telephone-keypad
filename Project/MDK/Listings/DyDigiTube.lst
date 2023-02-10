@@ -1,4 +1,4 @@
-C51 COMPILER V9.57.0.0   DYDIGITUBE                                                        01/22/2023 14:50:04 PAGE 1   
+C51 COMPILER V9.57.0.0   DYDIGITUBE                                                        02/10/2023 11:10:40 PAGE 1   
 
 
 C51 COMPILER V9.57.0.0, COMPILATION OF MODULE DYDIGITUBE
@@ -28,142 +28,161 @@ line level    source
   17          uint8 DyDigiTube_4x2_init(DyDigiTube_4x2 *const THIS){
   18   1          uint8 i = 0x00;
   19   1          THIS->enable = 1;
-  20   1          THIS->_full  = 0;
-  21   1          THIS->_emtp  = 1;
-  22   1          // memset(THIS->display, sizeof(Display)*8, DDT_minus);
-  23   1          for (i = 0; i < 8; i++){
-  24   2              THIS->display[i] = DDT_minus;
-  25   2          }
-  26   1          
-  27   1          return 0;
-  28   1      }
-  29          
-  30          /***
-  31           * @date    2023-01-18
-  32           * @note    不要在定时器中断里调用
-  33          */
-  34          void Delay1ms()   //@12.000MHz
-  35          {
-  36   1        unsigned char i, j;
-  37   1      
-  38   1        i = 2;
-  39   1        j = 239;
-  40   1        do
-  41   1        {
-  42   2          while (--j);
-  43   2        } while (--i);
-  44   1      }
-  45          
-  46          /***
-  47           * @date    2023-01-18
-  48           * @note    不要在定时器中断里调用
-  49          */
-  50          void DyDigiTube_4x2_PutNum(DyDigiTube_4x2 *const THIS) {
-  51   1          uint8 i = 0x00;
-  52   1          for(i = 0x00; i < 0x08; i++){
-  53   2              LSA = i & 0x01;
-C51 COMPILER V9.57.0.0   DYDIGITUBE                                                        01/22/2023 14:50:04 PAGE 2   
+  20   1          THIS->enable_last = 0;
+  21   1          THIS->_full  = 0;
+  22   1          THIS->_emtp  = 1;
+  23   1          // memset(THIS->display, sizeof(Display)*8, DDT_minus);
+  24   1          for (i = 0; i < 8; i++){
+  25   2              THIS->display[i] = DDT_minus;
+  26   2          }
+  27   1          
+  28   1          return 0;
+  29   1      }
+  30          
+  31          /***
+  32           * @date    2023-01-18
+  33           * @note    不要在定时器中断里调用
+  34          */
+  35          void Delay1ms()   //@12.000MHz
+  36          {
+  37   1        unsigned char i, j;
+  38   1      
+  39   1        i = 2;
+  40   1        j = 239;
+  41   1        do
+  42   1        {
+  43   2          while (--j);
+  44   2        } while (--i);
+  45   1      }
+  46          
+  47          /***
+  48           * @date    2023-01-18
+  49           * @note    不要在定时器中断里调用
+  50          */
+  51          void DyDigiTube_4x2_PutNum(DyDigiTube_4x2 *const THIS) {
+  52   1          uint8 i = 0x00;
+  53   1          for(i = 0x00; i < 0x08; i++){
+C51 COMPILER V9.57.0.0   DYDIGITUBE                                                        02/10/2023 11:10:40 PAGE 2   
 
-  54   2              LSB = i & 0x02;
-  55   2              LSC = i & 0x04;
-  56   2              DDT_DP_PORT = DISPLAY[THIS->display[i]];
-  57   2              Delay1ms();
-  58   2              DDT_DP_PORT = 0x00;
-  59   2          }
-  60   1          
-  61   1      }
-  62          
-  63          /***
-  64           * @date    2023-01-18
-  65          */
-  66          void DyDigiTube_4x2_push(DyDigiTube_4x2 *const THIS, Display num){
-  67   1          uint8 i = 0x00;
-  68   1          THIS->_emtp = 0;
-  69   1          if(THIS->_full) return ;
-  70   1          for(; i < 0x08; i++){
-  71   2              if(THIS->display[i] == DDT_minus){
-  72   3                  THIS->display[i] = num;
-  73   3                  break;
-  74   3              }
-  75   2          }
-  76   1          if (i >= 0x07){
-  77   2              THIS->_full = 1;
-  78   2          }
-  79   1          return ;
-  80   1      }
-  81          
-  82          /***
-  83           * @date    2023-01-22
-  84          */
-  85          void DyDigiTube_4x2_popb(DyDigiTube_4x2 *const THIS) {
-  86   1          uint8 i = 0x08;
-  87   1          THIS->_full = 0;
-  88   1          if(THIS->_emtp) return ;
-  89   1          for(; i > 0x00; i--){
-  90   2              if(THIS->display[i-1] != DDT_minus) {
-  91   3                  THIS->display[i-1] = DDT_minus;
-  92   3                  break;
-  93   3              }
-  94   2          }
-  95   1          if(i == 0x00) {
-  96   2              THIS->_emtp = 1;
-  97   2          }
-  98   1          return ;
-  99   1      }
- 100          
- 101          /***
- 102           * @date   2023-01-22
- 103          */
- 104          void DyDigiTube_4x2_Dail(DyDigiTube_4x2 *const THIS) {
- 105   1          uint8 i = 0x00;
- 106   1          if(!THIS->_full) {
- 107   2              printf("Not Correct.\r\n");
- 108   2              return ;
- 109   2          }
- 110   1          for(; i < 0x08; i++){
- 111   2              switch (THIS->display[i])
- 112   2              {
- 113   3              case DDT_zero:  putchar('0'); break;
- 114   3              case DDT_one:   putchar('1'); break;
- 115   3              case DDT_two:   putchar('2'); break;
-C51 COMPILER V9.57.0.0   DYDIGITUBE                                                        01/22/2023 14:50:04 PAGE 3   
+  54   2              LSA = i & 0x01;
+  55   2              LSB = i & 0x02;
+  56   2              LSC = i & 0x04;
+  57   2              DDT_DP_PORT = DISPLAY[THIS->display[i]];
+  58   2              Delay1ms();
+  59   2              DDT_DP_PORT = 0x00;
+  60   2          }
+  61   1          
+  62   1      }
+  63          
+  64          /***
+  65           * @date    2023-01-18
+  66          */
+  67          void DyDigiTube_4x2_push(DyDigiTube_4x2 *const THIS, Display num){
+  68   1          uint8 i = 0x00;
+  69   1          THIS->_emtp = 0;
+  70   1          if(THIS->_full) return ;
+  71   1          for(; i < 0x08; i++){
+  72   2              if(THIS->display[i] == DDT_minus){
+  73   3                  THIS->display[i] = num;
+  74   3                  break;
+  75   3              }
+  76   2          }
+  77   1          if (i >= 0x07){
+  78   2              THIS->_full = 1;
+  79   2          }
+  80   1          return ;
+  81   1      }
+  82          
+  83          /***
+  84           * @date    2023-01-22
+  85          */
+  86          void DyDigiTube_4x2_popb(DyDigiTube_4x2 *const THIS) {
+  87   1          uint8 i = 0x08;
+  88   1          THIS->_full = 0;
+  89   1          if(THIS->_emtp) return ;
+  90   1          for(; i > 0x00; i--){
+  91   2              if(THIS->display[i-1] != DDT_minus) {
+  92   3                  THIS->display[i-1] = DDT_minus;
+  93   3                  break;
+  94   3              }
+  95   2          }
+  96   1          if(i == 0x00) {
+  97   2              THIS->_emtp = 1;
+  98   2          }
+  99   1          return ;
+ 100   1      }
+ 101          
+ 102          /***
+ 103           * @date   2023-01-22
+ 104          */
+ 105          void DyDigiTube_4x2_Dail(DyDigiTube_4x2 *const THIS) {
+ 106   1          uint8 i = 0x00;
+ 107   1          if(!THIS->_full) {
+ 108   2              printf("Not Correct.\r\n");
+ 109   2              return ;
+ 110   2          }
+ 111   1          if(!THIS->enable_last) {
+ 112   2              THIS->enable_last = 1;
+ 113   2          }
+ 114   1          
+ 115   1          for(; i < 0x08; i++){
+C51 COMPILER V9.57.0.0   DYDIGITUBE                                                        02/10/2023 11:10:40 PAGE 3   
 
- 116   3              case DDT_three: putchar('3'); break;
- 117   3              case DDT_four:  putchar('4'); break;
- 118   3              case DDT_five:  putchar('5'); break;
- 119   3              case DDT_six:   putchar('6'); break;
- 120   3              case DDT_seven: putchar('7'); break;
- 121   3              case DDT_eight: putchar('8'); break;
- 122   3              case DDT_nine:  putchar('9'); break;
- 123   3              
- 124   3              default:
- 125   3                  break;
- 126   3              }
- 127   2          }
- 128   1          printf("\r\n");
- 129   1          return ;
- 130   1      }
- 131          
- 132          /***
- 133           * @date   2023-01-22
- 134          */
- 135          void DyDigiTube_4x2_Hang(DyDigiTube_4x2 *const THIS) {
- 136   1          uint8 i = 0x00;
- 137   1          THIS->_full = 0;
- 138   1          THIS->_emtp = 1;
- 139   1          for(; i < 0x08; i++){
- 140   2              THIS->display[i] = DDT_minus;
- 141   2          }
- 142   1          return ;
- 143   1      }
+ 116   2              switch (THIS->display[i])
+ 117   2              {
+ 118   3              case DDT_zero:  putchar('0'); break;
+ 119   3              case DDT_one:   putchar('1'); break;
+ 120   3              case DDT_two:   putchar('2'); break;
+ 121   3              case DDT_three: putchar('3'); break;
+ 122   3              case DDT_four:  putchar('4'); break;
+ 123   3              case DDT_five:  putchar('5'); break;
+ 124   3              case DDT_six:   putchar('6'); break;
+ 125   3              case DDT_seven: putchar('7'); break;
+ 126   3              case DDT_eight: putchar('8'); break;
+ 127   3              case DDT_nine:  putchar('9'); break;
+ 128   3              
+ 129   3              default:
+ 130   3                  break;
+ 131   3              }
+ 132   2              THIS->last_nu[i] = THIS->display[i];
+ 133   2          }
+ 134   1          printf("\r\n");
+ 135   1          return ;
+ 136   1      }
+ 137          
+ 138          /***
+ 139           * @date   2023-01-22
+ 140          */
+ 141          void DyDigiTube_4x2_Hang(DyDigiTube_4x2 *const THIS) {
+ 142   1          uint8 i = 0x00;
+ 143   1          THIS->_full = 0;
+ 144   1          THIS->_emtp = 1;
+ 145   1          for(; i < 0x08; i++){
+ 146   2              THIS->display[i] = DDT_minus;
+ 147   2          }
+ 148   1          return ;
+ 149   1      }
+ 150          
+ 151          void DyDigiTube_4x2_Redail(DyDigiTube_4x2 *const THIS) {
+ 152   1          uint8 i = 0x00;
+ 153   1          if(!THIS->enable_last) {
+ 154   2              printf("Fail to redail.\r\n");
+ 155   2              return ;
+ 156   2          }
+ 157   1          for(; i < 0x08; i++) {
+ 158   2              DyDigiTube_4x2_push(THIS, THIS->last_nu[i]);
+ 159   2          }
+ 160   1          DyDigiTube_4x2_Dail(THIS);
+ 161   1          return ;
+ 162   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    442    ----
-   CONSTANT SIZE    =     31    ----
+   CODE SIZE        =    589    ----
+   CONSTANT SIZE    =     49    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =   ----      16
+   DATA SIZE        =   ----      20
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.

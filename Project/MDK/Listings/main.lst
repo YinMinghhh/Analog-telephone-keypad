@@ -1,4 +1,4 @@
-C51 COMPILER V9.57.0.0   MAIN                                                              01/23/2023 19:32:39 PAGE 1   
+C51 COMPILER V9.57.0.0   MAIN                                                              02/10/2023 11:05:38 PAGE 1   
 
 
 C51 COMPILER V9.57.0.0, COMPILATION OF MODULE MAIN
@@ -11,7 +11,7 @@ line level    source
 
    1          /***
    2           * @file    main.c
-   3           * @brief   ´æ·Å³ÌĞòÈë¿Ú
+   3           * @brief   å­˜æ”¾ç¨‹åºå…¥å£
    4           * @author  zxy
    5           * @date    2023-01-17
    6          */
@@ -21,22 +21,22 @@ line level    source
   10          
   11          
   12          /***
-  13           * @brief   ³ÌĞòÈë¿Ú
+  13           * @brief   ç¨‹åºå…¥å£
   14           * @author  zxy
   15           * @date    2023-01-17
   16           * 
-  17           * @note    1.CPUÍâ²¿¾§Õñ12MHz
-  18           * @note    2.ÉÕÂ¼Ê±Ñ¡Ôñ12T²»¼Ó±¶
-  19           * @note    3.¶¨Ê±Æ÷0ÖĞ¶ÏÖÜÆÚ10ms
-  20           * @note    4.´®¿ÚÍ¨Ñ¶UART²¨ÌØÂÊ2400
+  17           * @note    1.CPUå¤–éƒ¨æ™¶æŒ¯12MHz
+  18           * @note    2.çƒ§å½•æ—¶é€‰æ‹©12Tä¸åŠ å€
+  19           * @note    3.å®šæ—¶å™¨0ä¸­æ–­å‘¨æœŸ10ms
+  20           * @note    4.ä¸²å£é€šè®¯UARTæ³¢ç‰¹ç‡2400
   21          */
   22          void main(){
   23   1          void modules_init();
   24   1          sys_clk = 12000000;
-  25   1          board_init();           // »ù±¾¼Ä´æÆ÷³õÊ¼»¯²¢¹Ø±Õ×ÜÖĞ¶Ï
-  26   1          modules_init();         // ÍâÉè³õÊ¼»¯
-  27   1          EnableWDT();            // Ê¹ÄÜ¿´ÃÅ¹·
-  28   1          EnableGlobalIRQ();      // ´ò¿ª×ÜÖĞ¶Ï
+  25   1          board_init();           // åŸºæœ¬å¯„å­˜å™¨åˆå§‹åŒ–å¹¶å…³é—­æ€»ä¸­æ–­
+  26   1          modules_init();         // å¤–è®¾åˆå§‹åŒ–
+  27   1          EnableWDT();            // ä½¿èƒ½çœ‹é—¨ç‹—
+  28   1          EnableGlobalIRQ();      // æ‰“å¼€æ€»ä¸­æ–­
   29   1      
   30   1          // DyDigiTube_4x2_push(&dy_digital_tube, 1);
   31   1          LOOP:

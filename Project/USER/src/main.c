@@ -1,6 +1,6 @@
 /***
  * @file    main.c
- * @brief   ´æ·Å³ÌĞòÈë¿Ú
+ * @brief   å­˜æ”¾ç¨‹åºå…¥å£
  * @author  zxy
  * @date    2023-01-17
 */
@@ -10,22 +10,22 @@
 
 
 /***
- * @brief   ³ÌĞòÈë¿Ú
+ * @brief   ç¨‹åºå…¥å£
  * @author  zxy
  * @date    2023-01-17
  * 
- * @note    1.CPUÍâ²¿¾§Õñ12MHz
- * @note    2.ÉÕÂ¼Ê±Ñ¡Ôñ12T²»¼Ó±¶
- * @note    3.¶¨Ê±Æ÷0ÖĞ¶ÏÖÜÆÚ10ms
- * @note    4.´®¿ÚÍ¨Ñ¶UART²¨ÌØÂÊ2400
+ * @note    1.CPUå¤–éƒ¨æ™¶æŒ¯12MHz
+ * @note    2.çƒ§å½•æ—¶é€‰æ‹©12Tä¸åŠ å€
+ * @note    3.å®šæ—¶å™¨0ä¸­æ–­å‘¨æœŸ10ms
+ * @note    4.ä¸²å£é€šè®¯UARTæ³¢ç‰¹ç‡2400
 */
 void main(){
     void modules_init();
     sys_clk = 12000000;
-    board_init();           // »ù±¾¼Ä´æÆ÷³õÊ¼»¯²¢¹Ø±Õ×ÜÖĞ¶Ï
-    modules_init();         // ÍâÉè³õÊ¼»¯
-    EnableWDT();            // Ê¹ÄÜ¿´ÃÅ¹·
-    EnableGlobalIRQ();      // ´ò¿ª×ÜÖĞ¶Ï
+    board_init();           // åŸºæœ¬å¯„å­˜å™¨åˆå§‹åŒ–å¹¶å…³é—­æ€»ä¸­æ–­
+    modules_init();         // å¤–è®¾åˆå§‹åŒ–
+    EnableWDT();            // ä½¿èƒ½çœ‹é—¨ç‹—
+    EnableGlobalIRQ();      // æ‰“å¼€æ€»ä¸­æ–­
 
     // DyDigiTube_4x2_push(&dy_digital_tube, 1);
     LOOP:

@@ -17,6 +17,7 @@ static const uint8 code DISPLAY[13] = {
 uint8 DyDigiTube_4x2_init(DyDigiTube_4x2 *const THIS){
     uint8 i = 0x00;
     THIS->enable = 1;
+    THIS->enable_last = 0;
     THIS->_full  = 0;
     THIS->_emtp  = 1;
     // memset(THIS->display, sizeof(Display)*8, DDT_minus);
@@ -107,6 +108,10 @@ void DyDigiTube_4x2_Dail(DyDigiTube_4x2 *const THIS) {
         printf("Not Correct.\r\n");
         return ;
     }
+    if(!THIS->enable_last) {
+        THIS->enable_last = 1;
+    }
+    
     for(; i < 0x08; i++){
         switch (THIS->display[i])
         {
@@ -124,6 +129,7 @@ void DyDigiTube_4x2_Dail(DyDigiTube_4x2 *const THIS) {
         default:
             break;
         }
+        THIS->last_nu[i] = THIS->display[i];
     }
     printf("\r\n");
     return ;
@@ -139,5 +145,18 @@ void DyDigiTube_4x2_Hang(DyDigiTube_4x2 *const THIS) {
     for(; i < 0x08; i++){
         THIS->display[i] = DDT_minus;
     }
+    return ;
+}
+
+void DyDigiTube_4x2_Redail(DyDigiTube_4x2 *const THIS) {
+    uint8 i = 0x00;
+    if(!THIS->enable_last) {
+        printf("Fail to redail.\r\n");
+        return ;
+    }
+    for(; i < 0x08; i++) {
+        DyDigiTube_4x2_push(THIS, THIS->last_nu[i]);
+    }
+    DyDigiTube_4x2_Dail(THIS);
     return ;
 }
